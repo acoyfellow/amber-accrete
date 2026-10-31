@@ -1,0 +1,12 @@
+planted Math.random plan: broke=true · replay asked the human 40 questions; frozen asked 5 | replay closed none; approved 101,103,105 | replay summary differs from frozen summary
+plan 0: broke=false · replay matched frozen on all 3 answer sets
+plan 1: broke=false · replay matched frozen on all 3 answer sets
+plan 2: broke=false · replay matched frozen on all 3 answer sets
+plan 3: broke=false · replay matched frozen on all 3 answer sets
+plan 4: broke=false · replay matched frozen on all 3 answer sets
+plan 5: broke=false · replay matched frozen on all 3 answer sets
+plan 6: broke=false · replay matched frozen on all 3 answer sets
+plan 7: broke=false · replay matched frozen on all 3 answer sets
+plan 8: broke=false · replay matched frozen on all 3 answer sets
+plan 9: broke=false · replay matched frozen on all 3 answer sets
+REPLAY DONE: 0 of 10 plans broke under replay

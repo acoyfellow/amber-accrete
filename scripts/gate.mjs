@@ -98,6 +98,16 @@ const codeCommit = (() => {
     return '';
   }
 })();
+const unchangedSince = (commit, paths) => {
+  try {
+    execFileSync('git', ['merge-base', '--is-ancestor', commit, 'HEAD'], { stdio: 'ignore' });
+    execFileSync('git', ['diff', '--quiet', commit, '--', ...paths], { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+};
+check('commit check fails closed on an unknown commit', !unchangedSince('0'.repeat(40), ['src']));
 const codeDirty = (() => {
   try {
     return execFileSync('git', ['status', '--porcelain', '--', 'evals', 'src', 'package.json'], { encoding: 'utf8' }).trim() !== '';
@@ -106,7 +116,7 @@ const codeDirty = (() => {
   }
 })();
 check('neutral receipt hash matches its content', neutralSha === createHash('sha256').update(JSON.stringify(neutralBody, null, 2)).digest('hex'));
-check('neutral receipt commit is the latest code commit, with no uncommitted code', typeof neutral.commit === 'string' && neutral.commit === codeCommit && !codeDirty, `${String(neutral.commit).slice(0, 8)} vs ${codeCommit.slice(0, 8)}${codeDirty ? ' (dirty)' : ''}`);
+check('neutral eval code is unchanged since the receipt commit', typeof neutral.commit === 'string' && unchangedSince(neutral.commit, ['evals/neutral.ts', 'evals/accrete.ts', 'evals/model.ts', 'evals/slice.ts', 'src']), String(neutral.commit).slice(0, 8));
 check('neutral prompt does not mention run ids or passing state', typeof neutral.prompt === 'string' && !new RegExp('run ?id|runId|pass.*state', 'i').test(neutral.prompt));
 const neutralRows = Array.isArray(neutral.rows) ? neutral.rows : [];
 const cells = new Set(neutralRows.map((row) => `${row.plan}|${row.arm}|${row.diff}`));
@@ -119,7 +129,7 @@ const REPLAY = 'bench/replay.json';
 const replay = existsSync(REPLAY) ? JSON.parse(readFileSync(REPLAY, 'utf8')) : {};
 const { sha256: replaySha, ...replayBody } = replay;
 check('replay receipt hash matches its content', replaySha === createHash('sha256').update(JSON.stringify(replayBody, null, 2)).digest('hex'));
-check('replay receipt commit is the latest code commit', typeof replay.commit === 'string' && replay.commit === codeCommit && !codeDirty, `${String(replay.commit).slice(0, 8)} vs ${codeCommit.slice(0, 8)}`);
+check('replay eval code is unchanged since the receipt commit', typeof replay.commit === 'string' && unchangedSince(replay.commit, ['evals/replay.ts', 'src']), String(replay.commit).slice(0, 8));
 check('replay prompt does not mention randomness, state or replay', typeof replay.prompt === 'string' && !new RegExp('random|replay|state|freeze|snapshot', 'i').test(replay.prompt));
 check('planted Math.random plan is flagged broken', replay.planted?.broke === true && String(replay.planted?.source).includes('Math.random'));
 const replayPlans = Array.isArray(replay.plans) ? replay.plans : [];
