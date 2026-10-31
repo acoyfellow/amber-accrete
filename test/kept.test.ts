@@ -108,3 +108,13 @@ describe("forkKept", () => {
 		await expect(forkKept(client, key, { ...options("w2"), tools, allowWrites: true })).resolves.toBeDefined();
 	});
 });
+
+describe("effect copies", () => {
+	test("a read tool with a Json schema receives the arguments the script passed", async () => {
+		const seen: Array<unknown> = [];
+		const tools = { probe: read(Schema.Json, (args) => { seen.push(args); return 1; }) };
+		const script = new DurableScript({ programId: "json", storage: memoryStorage(), tools, wasm });
+		await script.run(`tool("probe", { a: 1 })`);
+		expect(seen).toEqual([{ a: 1 }]);
+	});
+});

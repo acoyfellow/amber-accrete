@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
 const HOME = process.env.HOME ?? '';
@@ -55,6 +55,14 @@ const kept = readFileSync('src/kept.ts', 'utf8');
 check('library exports keepFrozen and forkKept', kept.includes('export const keepFrozen') && kept.includes('export const forkKept'));
 check('forkKept refuses engine, age and tool changes', ['EngineChanged', 'SnapshotTooOld', 'ToolChanged'].every((tag) => kept.includes(`throw new ${tag}`)));
 
+const effectLink = (() => {
+  try {
+    return realpathSync('node_modules/effect') === realpathSync(join(AMBER, 'node_modules/effect'));
+  } catch {
+    return false;
+  }
+})();
+check('one copy of effect: amber-accrete uses the copy amber decodes with', effectLink);
 check('typecheck passes', ok('npx', ['tsc', '--noEmit', '-p', '.']));
 check('unit tests pass', ok('npx', ['vitest', 'run']));
 

@@ -11,11 +11,11 @@
     "test": "vitest run",
     "abc": "tsx evals/abc.ts",
     "gate": "node scripts/gate.mjs",
-    "neutral": "tsx evals/neutral.ts"
+    "neutral": "tsx evals/neutral.ts",
+    "postinstall": "node scripts/one-effect.mjs"
   },
   "dependencies": {
-    "@acoyfellow/amber": "file:../amber",
-    "effect": "4.0.0"
+    "@acoyfellow/amber": "file:../amber"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",

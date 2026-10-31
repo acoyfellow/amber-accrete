@@ -147,7 +147,7 @@ const keptChecklist = async (diff: string): Promise<string> => {
 	return body.files?.["checklist.md"] ?? "";
 };
 
-const Any = Schema.Unknown;
+const Any = Schema.Json;
 
 const toolsFor = (counts: Meter, cache: Cache | null) => ({
 	load_rules: read(Any, (args) =>
