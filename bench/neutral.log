@@ -1,40 +1,114 @@
 plan 0 source:
-var rules = tool("load_rules", {});
-var repo = tool("index_repo", {});
-var diff = tool("next_diff", {});
-var checklist = tool("checklist", { diff: diff });
-var decision = tool("decide", { rules: rules.rules, files: repo.files, checklist: checklist });
+data = tool("load_rules", {});
+rules = data.rules;
+index_data = tool("index_repo", {});
+file_count = index_data.files;
+diff = tool("next_diff", {});
+checklist = tool("checklist", { diff: diff });
+decision = tool("decide", { rules: rules, file_count: file_count, checklist: checklist });
+({ decision: decision, checklist: checklist })
+freeze setup calls 2, tokens 2262; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 0: needsFreezing=false · C 2262 tok 10/10 · D 2273 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 1 source:
+const rules = tool("load_rules", {}).rules;
+const files = tool("index_repo", {}).files;
+const diff = tool("next_diff", {});
+const checklist = tool("checklist", { diff: diff });
+const decision = tool("decide", { rules: rules, files: files, checklist: checklist });
 ({ decision: decision, checklist: checklist })
 freeze setup calls 2, tokens 2275; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
-plan 0: needsFreezing=false · C 2275 tok 10/10 · D 2266 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
-plan 1 source:
+plan 1: needsFreezing=false · C 2275 tok 10/10 · D 2275 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 2 source:
 var rulesResult = tool("load_rules", {});
 var indexResult = tool("index_repo", {});
 var diff = tool("next_diff", {});
 var checklist = tool("checklist", { diff: diff });
 var decision = tool("decide", {
   rules: rulesResult.rules,
-  fileCount: indexResult.files,
+  files: indexResult.files,
   checklist: checklist
 });
-({ decision: decision, checklist: checklist })
-freeze setup calls 2, tokens 2261; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
-plan 1: needsFreezing=false · C 2261 tok 10/10 · D 2275 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
-plan 2 source:
-diff = tool("next_diff", {}).diff;
-checklist = tool("checklist", { diff: diff }).checklist;
-rules = tool("load_rules", {}).rules;
-files = tool("index_repo", {}).files;
-decision = tool("decide", { rules: rules, files: files, checklist: checklist }).decision;
-({ decision: decision, checklist: checklist })
-freeze setup calls 0, tokens 0; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
-plan 2: needsFreezing=false · C 22678 tok 0/10 · D 2268 tok 0/10 · setup arguments were the same every run; the cache matched the frozen plan
+({
+  decision: decision,
+  checklist: checklist
+})
+freeze setup calls 2, tokens 2270; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 2: needsFreezing=false · C 2270 tok 10/10 · D 2276 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
 plan 3 source:
+const rulesResult = tool("load_rules", {});
+const repoResult = tool("index_repo", {});
+const diff = tool("next_diff", {});
+const checklist = tool("checklist", { diff: diff });
+const decision = tool("decide", {
+  rules: rulesResult.rules,
+  files: repoResult.files,
+  checklist: checklist
+});
+({
+  decision: decision,
+  checklist: checklist
+})
+freeze setup calls 2, tokens 2265; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 3: needsFreezing=false · C 2265 tok 10/10 · D 2294 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 4 source:
+const rulesResponse = tool("load_rules", {});
+const indexResponse = tool("index_repo", {});
+const diff = tool("next_diff", {});
+const checklist = tool("checklist", { diff: diff });
+const decision = tool("decide", { rules: rulesResponse.rules, files: indexResponse.files, checklist: checklist });
+({ decision: decision, checklist: checklist })
+freeze setup calls 2, tokens 2268; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 4: needsFreezing=false · C 2268 tok 10/10 · D 2275 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 5 source:
+var rules_result = tool("load_rules", {});
+var index_result = tool("index_repo", {});
+var diff = tool("next_diff", {});
+var checklist = tool("checklist", { diff: diff });
+var decision = tool("decide", {
+  rules: rules_result.rules,
+  files: index_result.files,
+  checklist: checklist
+});
+({
+  decision: decision,
+  checklist: checklist
+})
+freeze setup calls 2, tokens 2290; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 5: needsFreezing=false · C 2290 tok 10/10 · D 2251 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 6 source:
 const { rules } = tool("load_rules", {});
 const { files } = tool("index_repo", {});
 const diff = tool("next_diff", {});
 const checklist = tool("checklist", { diff });
 const decision = tool("decide", { rules, files, checklist });
 ({ decision, checklist })
-freeze setup calls 2, tokens 2275; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
-plan 3: needsFreezing=false · C 2275 tok 10/10 · D 2259 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+freeze setup calls 2, tokens 2264; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 6: needsFreezing=false · C 2264 tok 10/10 · D 2261 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 7 source:
+var rules = tool("load_rules", {}).rules;
+var files = tool("index_repo", {}).files;
+var diff = tool("next_diff", {});
+var checklist = tool("checklist", { diff: diff });
+var decision = tool("decide", { rules: rules, files: files, checklist: checklist });
+({ decision: decision, checklist: checklist })
+freeze setup calls 2, tokens 2261; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 7: needsFreezing=false · C 2261 tok 10/10 · D 2275 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 8 source:
+const rulesResult = tool("load_rules", {});
+const indexResult = tool("index_repo", {});
+const diff = tool("next_diff", {});
+const checklist = tool("checklist", { diff });
+const decision = tool("decide", { rules: rulesResult.rules, files: indexResult.files, checklist });
+({ decision, checklist })
+freeze setup calls 2, tokens 2260; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 8: needsFreezing=false · C 2260 tok 10/10 · D 2292 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 9 source:
+const { rules } = tool("load_rules", {});
+const { files } = tool("index_repo", {});
+const diff = tool("next_diff", {});
+const checklist = tool("checklist", { diff });
+const decision = tool("decide", { rules, files, checklist });
+({ decision, checklist })
+freeze setup calls 2, tokens 2298; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 9: needsFreezing=false · C 2298 tok 10/10 · D 2268 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+NEUTRAL DONE: 0 of 10 plans needed freezing

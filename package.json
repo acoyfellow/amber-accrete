@@ -12,7 +12,8 @@
     "abc": "tsx evals/abc.ts",
     "gate": "node scripts/gate.mjs",
     "neutral": "tsx evals/neutral.ts",
-    "postinstall": "node scripts/one-effect.mjs"
+    "postinstall": "node scripts/one-effect.mjs",
+    "replay": "tsx evals/replay.ts"
   },
   "dependencies": {
     "@acoyfellow/amber": "file:../amber"

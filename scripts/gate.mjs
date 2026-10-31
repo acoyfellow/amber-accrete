@@ -115,6 +115,19 @@ const neededCount = Array.isArray(neutral.plans) ? neutral.plans.filter((plan) =
 check('neutral needed count matches the per-plan flags', neutral.needed === neededCount);
 check('README states the neutral count', readme.includes(`${neededCount} of 10 plans needed freezing`), `${neededCount} of 10`);
 
+const REPLAY = 'bench/replay.json';
+const replay = existsSync(REPLAY) ? JSON.parse(readFileSync(REPLAY, 'utf8')) : {};
+const { sha256: replaySha, ...replayBody } = replay;
+check('replay receipt hash matches its content', replaySha === createHash('sha256').update(JSON.stringify(replayBody, null, 2)).digest('hex'));
+check('replay receipt commit is the latest code commit', typeof replay.commit === 'string' && replay.commit === codeCommit && !codeDirty, `${String(replay.commit).slice(0, 8)} vs ${codeCommit.slice(0, 8)}`);
+check('replay prompt does not mention randomness, state or replay', typeof replay.prompt === 'string' && !new RegExp('random|replay|state|freeze|snapshot', 'i').test(replay.prompt));
+check('planted Math.random plan is flagged broken', replay.planted?.broke === true && String(replay.planted?.source).includes('Math.random'));
+const replayPlans = Array.isArray(replay.plans) ? replay.plans : [];
+check('10 plans x 3 answer sets x 2 arms', replayPlans.length === 10 && replayPlans.every((plan) => Array.isArray(plan.cells) && plan.cells.length === 3 && plan.cells.every((cell) => cell.frozen && cell.replay)));
+const brokenCount = replayPlans.filter((plan) => plan.broke).length;
+check('replay broken count matches per-plan flags', replay.broken === brokenCount);
+check('README states the replay count', readme.includes(`${brokenCount} of 10 plans broke under replay`), `${brokenCount} of 10`);
+
 check('accrete fork gate is retired with its receipts moved here', existsSync('bench/fork-real.json') && !existsSync(join(ACCRETE, 'scripts/fork-gate.mjs')));
 
 const failed = checks.filter((entry) => !entry.pass).length;
