@@ -1,0 +1,65 @@
+.gitignore
+  s_7b04649645ea0c::t_5f2c305d53c31c 1-2
+README.md
+  s_87bb0cc3d5fc34::t_17f992d9aeebda 1-69
+bench/abc.json
+  s_7b04649645ea0c::t_c6848cc4474e30 1-347
+bench/abc.log
+  s_7b04649645ea0c::t_75553c5b972c67 1-13
+bench/fork-real.json
+  s_aff9605c3b4204::t_bc043ee6a31b15 1-190
+bench/fork-simulated.json
+  s_aff9605c3b4204::t_36b836e22b4d6c 1-176
+evals/abc.ts
+  s_7b04649645ea0c::t_08d6af5a96c73a 1-269
+evals/accrete.ts
+  s_aff9605c3b4204::t_d9e0a71fe7681e 1-47
+evals/model.ts
+  s_aff9605c3b4204::t_d176549298ed5e 1-55
+evals/repo.ts
+  s_aff9605c3b4204::t_838246a2916df1 1-50
+evals/slice.ts
+  s_7b04649645ea0c::t_16c176ab8e39f8 1-91
+package.json
+  s_7b04649645ea0c::t_2033e897c6979d 1-25
+scripts/gate.mjs
+  s_7b04649645ea0c::t_b0f2e8e6778c6d 1-75
+src/kept.ts
+  s_7b04649645ea0c::t_af8aea50ba80eb 1-111
+test/kept.test.ts
+  s_7b04649645ea0c::t_bc5e401b3fa194 1-110
+tsconfig.json
+  s_7b04649645ea0c::t_0cd97a1a7ea483 1-27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "90cd381b2c93415d4da85d73ffdac2cdaad82aa3",
+  "prompts": {},
+  "sessions": {
+    "s_7b04649645ea0c": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a177da-1062-7274-8d7d-6a71aca9e2ba",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Jordan Coeyman <jcoeyman@cloudflare.com>"
+    },
+    "s_87bb0cc3d5fc34": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a12ab1-4f16-71b5-98b4-fa9e4f420c7f",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Jordan Coeyman <jcoeyman@cloudflare.com>"
+    },
+    "s_aff9605c3b4204": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0806f-f6e6-7378-a167-08e626c7de42",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Jordan Coeyman <jcoeyman@cloudflare.com>"
+    }
+  }
+}
