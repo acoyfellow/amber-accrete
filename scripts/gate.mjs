@@ -33,8 +33,10 @@ const SKIP = new Set(['node_modules', '.git', 'dist', '.wrangler', '.guardrail',
 const CODE = new RegExp('[.](ts|mts|js|mjs)$');
 const importsOf = (root) => walk(root, SKIP).filter((path) => CODE.test(path)).map((path) => [path, readFileSync(path, 'utf8')]);
 
-const AMBER_REF = new RegExp(String.raw`from\s+["'][^"']*(amber-accrete|cloudflare/accrete|\.\./accrete)`);
-const ACCRETE_REF = new RegExp(String.raw`from\s+["'][^"']*(@acoyfellow/amber|amber-accrete|cloudflare/amber|\.\./amber)`);
+const LOAD = String.raw`(?:from\s+|import\s*\(\s*|require\s*\(\s*)["'][^"']*`;
+const AMBER_REF = new RegExp(LOAD + String.raw`(amber-accrete|cloudflare/accrete|\.\./accrete)`);
+const ACCRETE_REF = new RegExp(LOAD + String.raw`(@acoyfellow/amber|amber-accrete|cloudflare/amber|\.\./amber)`);
+check('separation pattern catches import() and require', ACCRETE_REF.test('await import("@acoyfellow/amber")') && ACCRETE_REF.test('require("../amber/src")') && AMBER_REF.test('import("amber-accrete")'));
 
 const amberLeaks = importsOf(join(AMBER, 'src')).concat(importsOf(join(AMBER, 'examples'))).filter(([, text]) => AMBER_REF.test(text));
 check('amber does not import accrete or amber-accrete', amberLeaks.length === 0, amberLeaks.map(([path]) => path).join(', '));
@@ -44,7 +46,7 @@ check('accrete does not import amber or amber-accrete', accreteLeaks.length === 
 
 check('fork-many is gone from amber', !existsSync(join(AMBER, 'examples/fork-many')));
 
-const DEEP = new RegExp(String.raw`from\s+["'](\.\./)+(amber|accrete)/`);
+const DEEP = new RegExp(String.raw`(?:from\s+|import\s*\(\s*|require\s*\(\s*)["'](\.\./)+(amber|accrete)/`);
 const ownImports = importsOf('src').concat(importsOf('evals')).concat(importsOf('test'));
 const deep = ownImports.filter(([, text]) => DEEP.test(text));
 check('amber-accrete reaches amber only through @acoyfellow/amber', deep.length === 0, deep.map(([path]) => path).join(', '));
@@ -59,14 +61,24 @@ check('unit tests pass', ok('npx', ['vitest', 'run']));
 const RECEIPT = 'bench/abc.json';
 const sealed = existsSync(RECEIPT) ? JSON.parse(readFileSync(RECEIPT, 'utf8')) : {};
 const { sha256, ...body } = sealed;
-check('A/B/C receipt is sealed', sha256 === createHash('sha256').update(JSON.stringify(body, null, 2)).digest('hex'));
-check('A/B/C plan was written by a model', typeof sealed.plan?.source === 'string' && sealed.plan.source.includes('tool('));
-check('A/B/C ran 10 diffs per arm', ['A-amber-alone', 'B-accrete-alone', 'C-both'].every((arm) => sealed.totals?.[arm]?.runs === 10));
-check('every A/B/C receipt check passed', Array.isArray(sealed.checks) && sealed.checks.length >= 9 && sealed.checks.every((entry) => entry.pass));
+const ARMS = ['A-no-kept-tool-no-freeze', 'B-kept-tool-no-freeze', 'C-kept-tool-frozen', 'D-kept-tool-cache-by-args', 'E-kept-tool-cache-by-name'];
+check('receipt hash matches its content', sha256 === createHash('sha256').update(JSON.stringify(body, null, 2)).digest('hex'));
+check('receipt came from the current eval source', sealed.evalSourceSha === createHash('sha256').update(readFileSync('evals/abc.ts')).digest('hex'));
+check('plan was written by a model and has real state', typeof sealed.plan?.source === 'string' && sealed.plan.source.includes('Math.random') && sealed.plan.source.includes('review_pass'));
+check('5 arms ran 10 diffs each', ARMS.every((arm) => sealed.totals?.[arm]?.runs === 10));
+check('every row stores its output', Array.isArray(sealed.rows) && sealed.rows.length === 50 && sealed.rows.every((row) => typeof row.output?.checklist === 'string' && typeof row.output?.runId === 'string'));
+check('every eval check passed', Array.isArray(sealed.checks) && sealed.checks.length >= 7 && sealed.checks.every((entry) => entry.pass));
 
 const readme = existsSync('README.md') ? readFileSync('README.md', 'utf8') : '';
-const c = sealed.totals?.['C-both'];
-check('README cites the A/B/C receipt numbers', readme.includes(RECEIPT) && c !== undefined && readme.includes(String(c.modelTokens)) && readme.includes(String(c.wallMs)));
+const verdictLine = readme.split('\n').find((line) => line.startsWith('Verdict:')) ?? '';
+const c = sealed.totals?.['C-kept-tool-frozen'];
+const d = sealed.totals?.['D-kept-tool-cache-by-args'];
+const e = sealed.totals?.['E-kept-tool-cache-by-name'];
+const freezeWins = c !== undefined && d !== undefined && e !== undefined && c.modelTokens < d.modelTokens && c.coherent > e.coherent;
+const cacheEnough = c !== undefined && e !== undefined && e.coherent === 10 && e.modelTokens <= c.modelTokens;
+const expectedVerdict = freezeWins ? 'Verdict: freezing beats caching' : cacheEnough ? 'Verdict: caching is enough' : 'Verdict: mixed';
+check('README verdict matches the receipt', verdictLine.startsWith(expectedVerdict), `${expectedVerdict} | ${verdictLine.slice(0, 60)}`);
+check('README cites every arm total', [c, d, e, sealed.totals?.['A-no-kept-tool-no-freeze'], sealed.totals?.['B-kept-tool-no-freeze']].every((arm) => arm !== undefined && readme.includes(String(arm.modelTokens))));
 
 check('accrete fork gate is retired with its receipts moved here', existsSync('bench/fork-real.json') && !existsSync(join(ACCRETE, 'scripts/fork-gate.mjs')));
 

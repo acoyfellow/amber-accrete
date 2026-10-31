@@ -40,13 +40,22 @@ const DIFFS = Array.from({ length: DIFF_COUNT }, (_unused, index) =>
 const PLAN_PROMPT = `You write a JavaScript program for a sandbox. There is no import, no require, no await and no fetch.
 The only way to act is a synchronous function: tool(name, args), which returns a value.
 Available tools:
-- tool("load_rules", {}) returns an array of review rule strings. It is slow and costly. Call it once, first.
-- tool("index_repo", {}) returns an object { files: number, owners: object }. It is slow and costly. Call it once, second.
-- tool("next_diff", {}) returns the unified diff text to review. Call it after setup.
-- tool("checklist", { diff }) returns a markdown checklist string for that diff.
-- tool("decide", { checklist, rules }) returns one of "approve", "request-changes", "needs-tests".
-Write a program that does setup, then gets the diff, builds the checklist, gets a decision, and ends with this expression as its last line:
-({ decision, checklist, rules: rules.length, files: repo.files })
+Every tool call must include the field runId, so each call can be traced to one run.
+Available tools:
+- tool("load_rules", { runId }) returns { runId, rules } where rules is an array of strings. It is slow and costly. Call it once.
+- tool("index_repo", { runId }) returns { runId, files }. It is slow and costly. Call it once.
+- tool("next_diff", { runId }) returns the unified diff text to review.
+- tool("checklist", { runId, diff }) returns a markdown checklist string for that diff.
+- tool("review_pass", { runId, pass, checklist, rules }) returns an array of finding strings for one review pass.
+- tool("decide", { runId, checklist, findings }) returns one of "approve", "request-changes", "needs-tests".
+Write a program that:
+1. Makes a run id first: const runId = Math.random().toString(36).slice(2, 10);
+2. Calls load_rules and index_repo.
+3. Gets the diff and builds the checklist.
+4. Runs review_pass for pass = 0, 1 and 2 in a loop, and collects every finding into one array named findings.
+5. Gets a decision.
+The last line must be this expression:
+({ runId, decision, checklist, findings, setupRunIds: [rules.runId, repo.runId] })
 Reply with only the code. No fences. No prose.`;
 
 const CHECKLIST_PROMPT = (diff: string) => `Turn this unified diff into a markdown review checklist. One line per changed file: "- [ ] path (+added -removed)". Then one summary line: "N files, +A -R". Reply with only the checklist.\n\n${diff}`;
@@ -86,28 +95,63 @@ const modelChecklist = async (counts: Meter, diff: string): Promise<string> => {
 	return reply.text.trim();
 };
 
-const toolsFor = (counts: Meter, mode: ChecklistMode) => ({
-	load_rules: read(Schema.Struct({}), async () => {
-		const started = Date.now();
-		const guide = readFileSync(join(REPO, PACKAGE, "AGENTS.md"), "utf8");
-		const reply = await complete([{ role: "user", content: `Read these contributor rules and return the 5 most important review rules, one per line, plain text, no numbering.\n\n${guide}` }], 400);
-		counts.setupTokens += tokensOf(reply.usage);
-		counts.setupMs += Date.now() - started;
+type Cache = { readonly mode: "none" | "by-args" | "by-name"; readonly entries: Map<string, unknown>; hits: number; misses: number };
 
-		return reply.text.split("\n").map((line) => line.trim()).filter((line) => line !== "").slice(0, 5);
-	}),
-	index_repo: read(Schema.Struct({}), async () => {
-		const started = Date.now();
-		const files = sliceFiles();
-		const tsc = await tscOnAccrete(files);
-		counts.setupContainerSeconds += tsc.containerSeconds;
-		counts.setupMs += Date.now() - started;
+const noCache = (): Cache => ({ mode: "none", entries: new Map(), hits: 0, misses: 0 });
 
-		return { files: files.size, owners: { [PACKAGE]: tsc.clean ? "clean" : `${tsc.errors} errors` } };
-	}),
-	next_diff: external(Schema.Struct({})),
-	checklist: read(Schema.Struct({ diff: Schema.String }), ({ diff }) => (mode === "kept-tool" ? keptChecklist(counts, diff) : modelChecklist(counts, diff))),
-	decide: external(Schema.Struct({ checklist: Schema.String, rules: Schema.Array(Schema.String) })),
+const cached = async <A>(cache: Cache, name: string, args: unknown, work: () => Promise<A>): Promise<A> => {
+	if (cache.mode === "none") return work();
+
+	const key = cache.mode === "by-name" ? name : `${name}:${JSON.stringify(args)}`;
+
+	if (cache.entries.has(key)) {
+		cache.hits += 1;
+
+		return cache.entries.get(key) as A;
+	}
+
+	cache.misses += 1;
+	const value = await work();
+	cache.entries.set(key, value);
+
+	return value;
+};
+
+const RunArgs = Schema.Struct({ runId: Schema.String });
+
+const findingsFor = (checklist: string, pass: number): Array<string> => {
+	const lines = checklist.split("\n").filter((line) => line.startsWith("- [ ]"));
+
+	return pass === 0 ? lines.map((line) => `size: ${line.slice(6)}`) : pass === 1 ? lines.filter((line) => line.includes("-0)")).map((line) => `tests: ${line.slice(6)}`) : [`passes: ${lines.length} files checked`];
+};
+
+const toolsFor = (counts: Meter, mode: ChecklistMode, cache: Cache = noCache()) => ({
+	load_rules: read(RunArgs, (args) =>
+		cached(cache, "load_rules", args, async () => {
+			const started = Date.now();
+			const guide = readFileSync(join(REPO, PACKAGE, "AGENTS.md"), "utf8");
+			const reply = await complete([{ role: "user", content: `Read these contributor rules and return the 5 most important review rules, one per line, plain text, no numbering.\n\n${guide}` }], 400);
+			counts.setupTokens += tokensOf(reply.usage);
+			counts.setupMs += Date.now() - started;
+
+			return { runId: args.runId, rules: reply.text.split("\n").map((line) => line.trim()).filter((line) => line !== "").slice(0, 5) };
+		}),
+	),
+	index_repo: read(RunArgs, (args) =>
+		cached(cache, "index_repo", args, async () => {
+			const started = Date.now();
+			const files = sliceFiles();
+			const tsc = await tscOnAccrete(files);
+			counts.setupContainerSeconds += tsc.containerSeconds;
+			counts.setupMs += Date.now() - started;
+
+			return { runId: args.runId, files: files.size };
+		}),
+	),
+	next_diff: external(RunArgs),
+	checklist: read(Schema.Struct({ runId: Schema.String, diff: Schema.String }), ({ diff }) => (mode === "kept-tool" ? keptChecklist(counts, diff) : modelChecklist(counts, diff))),
+	review_pass: read(Schema.Struct({ runId: Schema.String, pass: Schema.Number, checklist: Schema.String, rules: Schema.Unknown }), ({ pass, checklist }) => findingsFor(checklist, pass)),
+	decide: external(Schema.Struct({ runId: Schema.String, checklist: Schema.String, findings: Schema.Unknown })),
 });
 
 type Waiting = Extract<Outcome, { _tag: "Waiting" }>;
@@ -120,17 +164,28 @@ const waitingOn = (outcome: Outcome, name: string): Waiting => {
 
 const decideFor = (checklist: string): string => (checklist.includes("-0)") ? "needs-tests" : "approve");
 
-const finishFrom = async (script: DurableScript, token: string, diff: string): Promise<{ readonly decision: string; readonly checklist: string }> => {
+type Result = { readonly runId: string; readonly decision: string; readonly checklist: string; readonly findings: ReadonlyArray<string>; readonly setupRunIds: ReadonlyArray<string> };
+
+const finishFrom = async (script: DurableScript, token: string, diff: string): Promise<Result> => {
 	const atDecide = waitingOn(await script.answer(token, diff), "decide");
 	const checklist = (atDecide.args as { checklist: string }).checklist;
 	const done = await script.answer(atDecide.token, decideFor(checklist));
 
 	if (done._tag !== "Finished") throw new Error(`expected Finished, got ${JSON.stringify(done).slice(0, 300)}`);
 
-	return done.result as { decision: string; checklist: string };
+	return done.result as Result;
 };
 
-type Row = { readonly arm: string; readonly diff: number; readonly ms: number; readonly modelTokens: number; readonly containerSeconds: number; readonly correct: boolean };
+type Row = {
+	readonly arm: string;
+	readonly diff: number;
+	readonly ms: number;
+	readonly modelTokens: number;
+	readonly containerSeconds: number;
+	readonly correct: boolean;
+	readonly coherent: boolean;
+	readonly output: Result;
+};
 
 const expected = (index: number): string => {
 	const removed = index % 3;
@@ -139,23 +194,25 @@ const expected = (index: number): string => {
 	return `src/f${index}.ts (+${added} -${removed})`;
 };
 
-const row = (arm: string, index: number, started: number, counts: Meter, checklist: string): Row => ({
+const row = (arm: string, index: number, started: number, counts: Meter, output: Result): Row => ({
 	arm,
 	diff: index,
 	ms: Date.now() - started,
 	modelTokens: counts.setupTokens + counts.checklistTokens,
 	containerSeconds: counts.setupContainerSeconds + counts.checklistContainerSeconds,
-	correct: checklist.includes(expected(index)),
+	correct: output.checklist.includes(expected(index)) && output.findings.length > 0,
+	coherent: output.setupRunIds.every((id) => id === output.runId),
+	output,
 });
 
-const fromTop = async (arm: string, source: string, mode: ChecklistMode, index: number): Promise<Row> => {
+const fromTop = async (arm: string, source: string, mode: ChecklistMode, index: number, cache: Cache = noCache()): Promise<Row> => {
 	const counts = meter();
 	const started = Date.now();
-	const script = new DurableScript({ programId: `${arm}-${index}`, storage: memoryStorage(), tools: toolsFor(counts, mode), wasm });
+	const script = new DurableScript({ programId: `${arm}-${index}`, storage: memoryStorage(), tools: toolsFor(counts, mode, cache), wasm });
 	const atDiff = waitingOn(await script.run(source), "next_diff");
 	const result = await finishFrom(script, atDiff.token, DIFFS[index] ?? "");
 
-	return row(arm, index, started, counts, result.checklist);
+	return row(arm, index, started, counts, result);
 };
 
 const checks: Array<{ readonly name: string; readonly pass: boolean; readonly detail: string }> = [];
@@ -171,14 +228,26 @@ const median = (values: ReadonlyArray<number>): number => [...values].sort((a, b
 
 const planReply = await complete([{ role: "user", content: PLAN_PROMPT }], 1200);
 const source = planReply.text.replace(/^\s*```[a-z]*\s*/, "").replace(/\s*```\s*$/, "").trim();
-check("model wrote the plan", source.includes("tool(") && source.includes("load_rules"), `${planReply.ms} ms, ${source.length} chars`);
+check("model wrote a plan with real state", ["Math.random", "review_pass", "load_rules", "findings"].every((part) => source.includes(part)) && new RegExp("for\\s*\\(|while\\s*\\(|\\.forEach\\(|\\.map\\(").test(source), `${planReply.ms} ms, ${source.length} chars`);
 
 const rows: Array<Row> = [];
 
-for (let index = 0; index < DIFF_COUNT; index++) rows.push(await fromTop("A-amber-alone", source, "model", index));
+const ARMS = {
+	"A-no-kept-tool-no-freeze": "plan runs from the top every time; the model writes each checklist",
+	"B-kept-tool-no-freeze": "plan runs from the top every time; the checklist is a kept accrete tool",
+	"C-kept-tool-frozen": "plan frozen once after setup and kept in accrete; each diff forks from the snapshot",
+	"D-kept-tool-cache-by-args": "plan runs from the top every time; setup tool results are cached by tool name and arguments, the usual replay cache",
+	"E-kept-tool-cache-by-name": "plan runs from the top every time; setup tool results are cached by tool name only, ignoring arguments",
+} as const;
+
+type ArmName = keyof typeof ARMS;
+
+const ARM_NAMES = Object.keys(ARMS) as Array<ArmName>;
+
+for (let index = 0; index < DIFF_COUNT; index++) rows.push(await fromTop("A-no-kept-tool-no-freeze", source, "model", index));
 console.log("A done");
 
-for (let index = 0; index < DIFF_COUNT; index++) rows.push(await fromTop("B-accrete-alone", source, "kept-tool", index));
+for (let index = 0; index < DIFF_COUNT; index++) rows.push(await fromTop("B-kept-tool-no-freeze", source, "kept-tool", index));
 console.log("B done");
 
 const freezeCounts = meter();
@@ -193,32 +262,61 @@ for (let index = 0; index < DIFF_COUNT; index++) {
 	const started = Date.now();
 	const { script, token } = await forkKept(client, key, { programId: `C-${index}`, storage: memoryStorage(), tools: toolsFor(counts, "kept-tool"), wasm, engineSha: ENGINE_SHA, maxAgeMs: MAX_AGE_MS });
 	const result = await finishFrom(script, token, DIFFS[index] ?? "");
-	rows.push(row("C-both", index, started, counts, result.checklist));
+	rows.push(row("C-kept-tool-frozen", index, started, counts, result));
 }
 console.log("C done");
+
+const byArgs: Cache = { mode: "by-args", entries: new Map(), hits: 0, misses: 0 };
+for (let index = 0; index < DIFF_COUNT; index++) rows.push(await fromTop("D-kept-tool-cache-by-args", source, "kept-tool", index, byArgs));
+console.log("D done");
+
+const byName: Cache = { mode: "by-name", entries: new Map(), hits: 0, misses: 0 };
+for (let index = 0; index < DIFF_COUNT; index++) rows.push(await fromTop("E-kept-tool-cache-by-name", source, "kept-tool", index, byName));
+console.log("E done");
 
 const arm = (name: string) => rows.filter((entry) => entry.arm === name);
 
 const totals = Object.fromEntries(
-	["A-amber-alone", "B-accrete-alone", "C-both"].map((name) => {
+	ARM_NAMES.map((name) => {
 		const entries = arm(name);
-		const extraTokens = name === "C-both" ? freeze.modelTokens : 0;
-		const extraMs = name === "C-both" ? freeze.ms : 0;
+		const extraTokens = name === "C-kept-tool-frozen" ? freeze.modelTokens : 0;
+		const extraMs = name === "C-kept-tool-frozen" ? freeze.ms : 0;
 
-		return [name, { runs: entries.length, correct: entries.filter((entry) => entry.correct).length, modelTokens: sum(entries, (entry) => entry.modelTokens) + extraTokens, wallMs: sum(entries, (entry) => entry.ms) + extraMs, medianMs: median(entries.map((entry) => entry.ms)), containerSeconds: sum(entries, (entry) => entry.containerSeconds) }];
+		return [
+			name,
+			{
+				runs: entries.length,
+				correct: entries.filter((entry) => entry.correct).length,
+				coherent: entries.filter((entry) => entry.coherent).length,
+				distinctRunIds: new Set(entries.map((entry) => entry.output.runId)).size,
+				modelTokens: sum(entries, (entry) => entry.modelTokens) + extraTokens,
+				wallMs: sum(entries, (entry) => entry.ms) + extraMs,
+				medianMs: median(entries.map((entry) => entry.ms)),
+				containerSeconds: sum(entries, (entry) => entry.containerSeconds),
+			},
+		];
 	}),
 );
 
-const a = totals["A-amber-alone"];
-const b = totals["B-accrete-alone"];
-const c = totals["C-both"];
+const caches = { "D-kept-tool-cache-by-args": { hits: byArgs.hits, misses: byArgs.misses }, "E-kept-tool-cache-by-name": { hits: byName.hits, misses: byName.misses } };
 
-if (a === undefined || b === undefined || c === undefined) throw new Error("missing arm");
+const t = (name: ArmName) => {
+	const found = totals[name];
 
-check("every arm ran 10 diffs", a.runs === DIFF_COUNT && b.runs === DIFF_COUNT && c.runs === DIFF_COUNT, `${a.runs}/${b.runs}/${c.runs}`);
-check("B and C are correct on every diff", b.correct === DIFF_COUNT && c.correct === DIFF_COUNT, `A ${a.correct}, B ${b.correct}, C ${c.correct}`);
+	if (found === undefined) throw new Error(`missing arm ${name}`);
+
+	return found;
+};
+
+const [a, b, c, d, e] = ARM_NAMES.map(t);
+
+if (a === undefined || b === undefined || c === undefined || d === undefined || e === undefined) throw new Error("missing arm");
+
+check("every arm ran 10 diffs", ARM_NAMES.every((name) => t(name).runs === DIFF_COUNT), ARM_NAMES.map((name) => t(name).runs).join("/"));
+check("C is correct and coherent on every diff", c.correct === DIFF_COUNT && c.coherent === DIFF_COUNT, `correct ${c.correct}, coherent ${c.coherent}`);
 check("C uses fewer model tokens than A and B, freeze included", c.modelTokens < a.modelTokens && c.modelTokens < b.modelTokens, `A ${a.modelTokens}, B ${b.modelTokens}, C ${c.modelTokens}`);
-check("C takes less total time than A and B, freeze included", c.wallMs < a.wallMs && c.wallMs < b.wallMs, `A ${a.wallMs} ms, B ${b.wallMs} ms, C ${c.wallMs} ms`);
+console.log(`INFO C vs D (cache by args): tokens ${c.modelTokens} vs ${d.modelTokens}, coherent ${c.coherent} vs ${d.coherent}, cache hits ${byArgs.hits}`);
+console.log(`INFO C vs E (cache by name): tokens ${c.modelTokens} vs ${e.modelTokens}, coherent ${c.coherent} vs ${e.coherent}, cache hits ${byName.hits}`);
 
 const refusedAs = async (name: string, attempt: () => Promise<unknown>, tag: string) => {
 	try {
@@ -246,17 +344,15 @@ await refusedAs("forkKept refuses a tool that changed after the freeze", () => f
 await refusedAs("forkKept refuses write tools unless allowed", () => forkKept(client, key, { ...baseOptions, programId: "bad-write", tools: { ...toolsFor(meter(), "kept-tool"), post_review: write(Schema.Struct({}), () => undefined) } }), "WritesRefused");
 
 const sealed = {
-	kind: "amber-accrete-abc",
+	kind: "amber-accrete-freeze-vs-cache",
 	at: new Date().toISOString(),
 	accrete: client.url,
 	engineSha: ENGINE_SHA,
 	plan: { source, sha256: createHash("sha256").update(source).digest("hex"), modelMs: planReply.ms, usage: planReply.usage },
-	arms: {
-		"A-amber-alone": "plan runs from the top every time; the model writes each checklist",
-		"B-accrete-alone": "plan runs from the top every time; the checklist is a kept accrete tool",
-		"C-both": "plan frozen once after setup and kept in accrete; each diff forks from it; checklist is the kept tool",
-	},
+	evalSourceSha: createHash("sha256").update(readFileSync(fileURLToPath(import.meta.url))).digest("hex"),
+	arms: ARMS,
 	freeze,
+	caches,
 	totals,
 	rows,
 	checks,

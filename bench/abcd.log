@@ -1,0 +1,16 @@
+PASS model wrote a plan with real state · 5009 ms, 577 chars
+A done
+B done
+C done
+D done
+E done
+PASS every arm ran 10 diffs · 10/10/10/10/10
+PASS C is correct and coherent on every diff · correct 10, coherent 10
+PASS C uses fewer model tokens than A and B, freeze included · A 23941, B 22659, C 2264
+INFO C vs D (cache by args): tokens 2264 vs 22681, coherent 10 vs 10, cache hits 0
+INFO C vs E (cache by name): tokens 2264 vs 2266, coherent 10 vs 1, cache hits 18
+PASS forkKept refuses a different engine · EngineChanged: frozen on engine 4039ef60f53b, running 000000000000
+PASS forkKept refuses an over-age snapshot · SnapshotTooOld: snapshot is 7418602 ms old; the limit is 3600000 ms
+PASS forkKept refuses a tool that changed after the freeze · ToolChanged: diff-checklist-mvv0kxa7 was 111111111111 when frozen, now 2e8cc1e98311
+PASS forkKept refuses write tools unless allowed · WritesRefused: 
+ABC PASS: 8 checks

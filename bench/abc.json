@@ -1,326 +1,1238 @@
 {
-  "kind": "amber-accrete-abc",
-  "at": "2026-10-31T13:45:31.644Z",
+  "kind": "amber-accrete-freeze-vs-cache",
+  "at": "2026-10-31T14:09:11.133Z",
   "accrete": "https://accrete.customer0.dev",
   "engineSha": "4039ef60f53bcfb79032ddb394b9d5f6c0d8cae5638e87e94e8a6c343fd35418",
   "plan": {
-    "source": "var rules = tool(\"load_rules\", {});\nvar repo = tool(\"index_repo\", {});\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", { checklist: checklist, rules: rules });\n({ decision: decision, checklist: checklist, rules: rules.length, files: repo.files })",
-    "sha256": "e62e88e08683830497fe6da9e3ff914b5ba067930a690de21339956528d57413",
-    "modelMs": 4454,
+    "source": "const runId = Math.random().toString(36).slice(2, 10);\nconst rules = tool(\"load_rules\", { runId });\nconst repo = tool(\"index_repo\", { runId });\nconst diff = tool(\"next_diff\", { runId });\nconst checklist = tool(\"checklist\", { runId, diff });\nconst findings = [];\nfor (let pass = 0; pass <= 2; pass++) {\n  const passFindings = tool(\"review_pass\", { runId, pass, checklist, rules: rules.rules });\n  findings.push(...passFindings);\n}\nconst decision = tool(\"decide\", { runId, checklist, findings });\n({ runId, decision, checklist, findings, setupRunIds: [rules.runId, repo.runId] })",
+    "sha256": "6cce49472b253dc86066c5cdd2e2baf6ae30c4d3a87e30ccce420ddb09d212c7",
+    "modelMs": 5009,
     "usage": {
-      "prompt_tokens": 235,
-      "completion_tokens": 77,
-      "total_tokens": 312,
+      "prompt_tokens": 367,
+      "completion_tokens": 163,
+      "total_tokens": 530,
       "prompt_tokens_details": {
         "cached_tokens": 0
       },
-      "neurons": 48.29545593261719
+      "neurons": 90.96818542480469
     }
   },
+  "evalSourceSha": "db6c1782707e63c8f57bb4a204d7741ec3b2479fd98974bbf1e7c2910ec813bd",
   "arms": {
-    "A-amber-alone": "plan runs from the top every time; the model writes each checklist",
-    "B-accrete-alone": "plan runs from the top every time; the checklist is a kept accrete tool",
-    "C-both": "plan frozen once after setup and kept in accrete; each diff forks from it; checklist is the kept tool"
+    "A-no-kept-tool-no-freeze": "plan runs from the top every time; the model writes each checklist",
+    "B-kept-tool-no-freeze": "plan runs from the top every time; the checklist is a kept accrete tool",
+    "C-kept-tool-frozen": "plan frozen once after setup and kept in accrete; each diff forks from the snapshot",
+    "D-kept-tool-cache-by-args": "plan runs from the top every time; setup tool results are cached by tool name and arguments, the usual replay cache",
+    "E-kept-tool-cache-by-name": "plan runs from the top every time; setup tool results are cached by tool name only, ignoring arguments"
   },
   "freeze": {
-    "ms": 21504,
-    "modelTokens": 2275,
+    "ms": 17449,
+    "modelTokens": 2264,
     "containerSeconds": 0,
-    "key": "ad5cf11f3f0c453965beb49e605dae9ff3025dbf0d5282ba890d6f3e121bb902"
+    "key": "34b17984859c13ada5f0c1b441d71de8840b51a9ed4e353eb945df9ce6f48f4d"
+  },
+  "caches": {
+    "D-kept-tool-cache-by-args": {
+      "hits": 0,
+      "misses": 20
+    },
+    "E-kept-tool-cache-by-name": {
+      "hits": 18,
+      "misses": 2
+    }
   },
   "totals": {
-    "A-amber-alone": {
+    "A-no-kept-tool-no-freeze": {
       "runs": 10,
-      "correct": 7,
-      "modelTokens": 23911,
-      "wallMs": 172572,
-      "medianMs": 16918,
+      "correct": 8,
+      "coherent": 10,
+      "distinctRunIds": 10,
+      "modelTokens": 23941,
+      "wallMs": 201662,
+      "medianMs": 19915,
       "containerSeconds": 0
     },
-    "B-accrete-alone": {
+    "B-kept-tool-no-freeze": {
       "runs": 10,
       "correct": 10,
-      "modelTokens": 22699,
-      "wallMs": 158005,
-      "medianMs": 16162,
+      "coherent": 10,
+      "distinctRunIds": 10,
+      "modelTokens": 22659,
+      "wallMs": 181088,
+      "medianMs": 17910,
       "containerSeconds": 0
     },
-    "C-both": {
+    "C-kept-tool-frozen": {
       "runs": 10,
       "correct": 10,
-      "modelTokens": 2275,
-      "wallMs": 28954,
-      "medianMs": 760,
+      "coherent": 10,
+      "distinctRunIds": 1,
+      "modelTokens": 2264,
+      "wallMs": 24483,
+      "medianMs": 685,
+      "containerSeconds": 0
+    },
+    "D-kept-tool-cache-by-args": {
+      "runs": 10,
+      "correct": 10,
+      "coherent": 10,
+      "distinctRunIds": 10,
+      "modelTokens": 22681,
+      "wallMs": 190492,
+      "medianMs": 18241,
+      "containerSeconds": 0
+    },
+    "E-kept-tool-cache-by-name": {
+      "runs": 10,
+      "correct": 10,
+      "coherent": 1,
+      "distinctRunIds": 10,
+      "modelTokens": 2266,
+      "wallMs": 20544,
+      "medianMs": 526,
       "containerSeconds": 0
     }
   },
   "rows": [
     {
-      "arm": "A-amber-alone",
+      "arm": "A-no-kept-tool-no-freeze",
       "diff": 0,
-      "ms": 16918,
-      "modelTokens": 2417,
-      "containerSeconds": 0,
-      "correct": true
-    },
-    {
-      "arm": "A-amber-alone",
-      "diff": 1,
-      "ms": 17044,
-      "modelTokens": 2385,
-      "containerSeconds": 0,
-      "correct": true
-    },
-    {
-      "arm": "A-amber-alone",
-      "diff": 2,
-      "ms": 17962,
+      "ms": 25492,
       "modelTokens": 2394,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "tm1a24lm",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0",
+        "findings": [
+          "size: src/f0.ts (+2 -0)",
+          "tests: src/f0.ts (+2 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "tm1a24lm",
+          "tm1a24lm"
+        ]
+      }
     },
     {
-      "arm": "A-amber-alone",
+      "arm": "A-no-kept-tool-no-freeze",
+      "diff": 1,
+      "ms": 19915,
+      "modelTokens": 2408,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "4zhrc8nj",
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n3 files, +3 -1",
+        "findings": [
+          "size: src/f1.ts (+3 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "4zhrc8nj",
+          "4zhrc8nj"
+        ]
+      }
+    },
+    {
+      "arm": "A-no-kept-tool-no-freeze",
+      "diff": 2,
+      "ms": 18343,
+      "modelTokens": 2395,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "e0h09pys",
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n3 files, +4 -2",
+        "findings": [
+          "size: src/f2.ts (+4 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "e0h09pys",
+          "e0h09pys"
+        ]
+      }
+    },
+    {
+      "arm": "A-no-kept-tool-no-freeze",
       "diff": 3,
-      "ms": 15864,
-      "modelTokens": 2372,
+      "ms": 22614,
+      "modelTokens": 2403,
       "containerSeconds": 0,
-      "correct": false
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "ldazdvz7",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0",
+        "findings": [
+          "size: src/f3.ts (+5 -0)",
+          "tests: src/f3.ts (+5 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "ldazdvz7",
+          "ldazdvz7"
+        ]
+      }
     },
     {
-      "arm": "A-amber-alone",
+      "arm": "A-no-kept-tool-no-freeze",
       "diff": 4,
-      "ms": 22256,
-      "modelTokens": 2389,
+      "ms": 19837,
+      "modelTokens": 2380,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "zyk9dn11",
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1",
+        "findings": [
+          "size: src/f4.ts (+2 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "zyk9dn11",
+          "zyk9dn11"
+        ]
+      }
     },
     {
-      "arm": "A-amber-alone",
+      "arm": "A-no-kept-tool-no-freeze",
       "diff": 5,
-      "ms": 15791,
+      "ms": 22018,
       "modelTokens": 2387,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "1nk4x81w",
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2",
+        "findings": [
+          "size: src/f5.ts (+3 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "1nk4x81w",
+          "1nk4x81w"
+        ]
+      }
     },
     {
-      "arm": "A-amber-alone",
+      "arm": "A-no-kept-tool-no-freeze",
       "diff": 6,
-      "ms": 20999,
-      "modelTokens": 2389,
+      "ms": 23158,
+      "modelTokens": 2417,
       "containerSeconds": 0,
-      "correct": false
+      "correct": false,
+      "coherent": true,
+      "output": {
+        "runId": "ncobho5k",
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -1)\n1 files, +4 -1",
+        "findings": [
+          "size: src/f6.ts (+4 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "ncobho5k",
+          "ncobho5k"
+        ]
+      }
     },
     {
-      "arm": "A-amber-alone",
+      "arm": "A-no-kept-tool-no-freeze",
       "diff": 7,
-      "ms": 15299,
-      "modelTokens": 2372,
+      "ms": 16567,
+      "modelTokens": 2391,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "ubo99vl8",
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n5 files, +5 -1",
+        "findings": [
+          "size: src/f7.ts (+5 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "ubo99vl8",
+          "ubo99vl8"
+        ]
+      }
     },
     {
-      "arm": "A-amber-alone",
+      "arm": "A-no-kept-tool-no-freeze",
       "diff": 8,
-      "ms": 15288,
-      "modelTokens": 2409,
+      "ms": 15638,
+      "modelTokens": 2374,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "4iaink4l",
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n2 files, +2 -2",
+        "findings": [
+          "size: src/f8.ts (+2 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "4iaink4l",
+          "4iaink4l"
+        ]
+      }
     },
     {
-      "arm": "A-amber-alone",
+      "arm": "A-no-kept-tool-no-freeze",
       "diff": 9,
-      "ms": 15151,
-      "modelTokens": 2397,
+      "ms": 18080,
+      "modelTokens": 2392,
       "containerSeconds": 0,
-      "correct": false
+      "correct": false,
+      "coherent": true,
+      "output": {
+        "runId": "8kqponmm",
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -1)\n1 file, +3 -1",
+        "findings": [
+          "size: src/f9.ts (+3 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "8kqponmm",
+          "8kqponmm"
+        ]
+      }
     },
     {
-      "arm": "B-accrete-alone",
+      "arm": "B-kept-tool-no-freeze",
       "diff": 0,
-      "ms": 17074,
+      "ms": 17910,
+      "modelTokens": 2241,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "sajx7a7t",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n",
+        "findings": [
+          "size: src/f0.ts (+2 -0)",
+          "tests: src/f0.ts (+2 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "sajx7a7t",
+          "sajx7a7t"
+        ]
+      }
+    },
+    {
+      "arm": "B-kept-tool-no-freeze",
+      "diff": 1,
+      "ms": 16164,
+      "modelTokens": 2259,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "ulfpuvqi",
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n",
+        "findings": [
+          "size: src/f1.ts (+3 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "ulfpuvqi",
+          "ulfpuvqi"
+        ]
+      }
+    },
+    {
+      "arm": "B-kept-tool-no-freeze",
+      "diff": 2,
+      "ms": 17295,
+      "modelTokens": 2256,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "vthbkzpz",
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n",
+        "findings": [
+          "size: src/f2.ts (+4 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "vthbkzpz",
+          "vthbkzpz"
+        ]
+      }
+    },
+    {
+      "arm": "B-kept-tool-no-freeze",
+      "diff": 3,
+      "ms": 16971,
       "modelTokens": 2275,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "v42ogkg5",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n",
+        "findings": [
+          "size: src/f3.ts (+5 -0)",
+          "tests: src/f3.ts (+5 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "v42ogkg5",
+          "v42ogkg5"
+        ]
+      }
     },
     {
-      "arm": "B-accrete-alone",
-      "diff": 1,
-      "ms": 16200,
-      "modelTokens": 2262,
-      "containerSeconds": 0,
-      "correct": true
-    },
-    {
-      "arm": "B-accrete-alone",
-      "diff": 2,
-      "ms": 17590,
-      "modelTokens": 2273,
-      "containerSeconds": 0,
-      "correct": true
-    },
-    {
-      "arm": "B-accrete-alone",
-      "diff": 3,
-      "ms": 14735,
-      "modelTokens": 2262,
-      "containerSeconds": 0,
-      "correct": true
-    },
-    {
-      "arm": "B-accrete-alone",
+      "arm": "B-kept-tool-no-freeze",
       "diff": 4,
-      "ms": 14813,
-      "modelTokens": 2298,
+      "ms": 19728,
+      "modelTokens": 2287,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "v1m018a6",
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n",
+        "findings": [
+          "size: src/f4.ts (+2 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "v1m018a6",
+          "v1m018a6"
+        ]
+      }
     },
     {
-      "arm": "B-accrete-alone",
+      "arm": "B-kept-tool-no-freeze",
       "diff": 5,
-      "ms": 13604,
+      "ms": 20449,
+      "modelTokens": 2262,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "ib8155cr",
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n",
+        "findings": [
+          "size: src/f5.ts (+3 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "ib8155cr",
+          "ib8155cr"
+        ]
+      }
+    },
+    {
+      "arm": "B-kept-tool-no-freeze",
+      "diff": 6,
+      "ms": 22539,
+      "modelTokens": 2275,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "7f87ga2j",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n",
+        "findings": [
+          "size: src/f6.ts (+4 -0)",
+          "tests: src/f6.ts (+4 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "7f87ga2j",
+          "7f87ga2j"
+        ]
+      }
+    },
+    {
+      "arm": "B-kept-tool-no-freeze",
+      "diff": 7,
+      "ms": 15061,
       "modelTokens": 2261,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "jamuq6ys",
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n",
+        "findings": [
+          "size: src/f7.ts (+5 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "jamuq6ys",
+          "jamuq6ys"
+        ]
+      }
     },
     {
-      "arm": "B-accrete-alone",
-      "diff": 6,
-      "ms": 17522,
-      "modelTokens": 2248,
+      "arm": "B-kept-tool-no-freeze",
+      "diff": 8,
+      "ms": 19380,
+      "modelTokens": 2268,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "gb7w8kej",
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n",
+        "findings": [
+          "size: src/f8.ts (+2 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "gb7w8kej",
+          "gb7w8kej"
+        ]
+      }
     },
     {
-      "arm": "B-accrete-alone",
+      "arm": "B-kept-tool-no-freeze",
+      "diff": 9,
+      "ms": 15591,
+      "modelTokens": 2275,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "m9zyu5mj",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n",
+        "findings": [
+          "size: src/f9.ts (+3 -0)",
+          "tests: src/f9.ts (+3 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "m9zyu5mj",
+          "m9zyu5mj"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 0,
+      "ms": 734,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n",
+        "findings": [
+          "size: src/f0.ts (+2 -0)",
+          "tests: src/f0.ts (+2 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 1,
+      "ms": 1065,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n",
+        "findings": [
+          "size: src/f1.ts (+3 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 2,
+      "ms": 600,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n",
+        "findings": [
+          "size: src/f2.ts (+4 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 3,
+      "ms": 685,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n",
+        "findings": [
+          "size: src/f3.ts (+5 -0)",
+          "tests: src/f3.ts (+5 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 4,
+      "ms": 739,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n",
+        "findings": [
+          "size: src/f4.ts (+2 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 5,
+      "ms": 637,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n",
+        "findings": [
+          "size: src/f5.ts (+3 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 6,
+      "ms": 560,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n",
+        "findings": [
+          "size: src/f6.ts (+4 -0)",
+          "tests: src/f6.ts (+4 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
       "diff": 7,
-      "ms": 15101,
+      "ms": 617,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n",
+        "findings": [
+          "size: src/f7.ts (+5 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 8,
+      "ms": 825,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n",
+        "findings": [
+          "size: src/f8.ts (+2 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "C-kept-tool-frozen",
+      "diff": 9,
+      "ms": 572,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "mze1dx0g",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n",
+        "findings": [
+          "size: src/f9.ts (+3 -0)",
+          "tests: src/f9.ts (+3 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "mze1dx0g",
+          "mze1dx0g"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 0,
+      "ms": 18935,
+      "modelTokens": 2275,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "70811tpw",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n",
+        "findings": [
+          "size: src/f0.ts (+2 -0)",
+          "tests: src/f0.ts (+2 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "70811tpw",
+          "70811tpw"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 1,
+      "ms": 18510,
+      "modelTokens": 2275,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "volvcfs1",
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n",
+        "findings": [
+          "size: src/f1.ts (+3 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "volvcfs1",
+          "volvcfs1"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 2,
+      "ms": 15189,
+      "modelTokens": 2261,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "js4wa4sd",
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n",
+        "findings": [
+          "size: src/f2.ts (+4 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "js4wa4sd",
+          "js4wa4sd"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 3,
+      "ms": 31203,
+      "modelTokens": 2270,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "ih0inlmq",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n",
+        "findings": [
+          "size: src/f3.ts (+5 -0)",
+          "tests: src/f3.ts (+5 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "ih0inlmq",
+          "ih0inlmq"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 4,
+      "ms": 16296,
+      "modelTokens": 2275,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "sjs27fwj",
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n",
+        "findings": [
+          "size: src/f4.ts (+2 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "sjs27fwj",
+          "sjs27fwj"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 5,
+      "ms": 16805,
+      "modelTokens": 2275,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "rc64bd9l",
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n",
+        "findings": [
+          "size: src/f5.ts (+3 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "rc64bd9l",
+          "rc64bd9l"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 6,
+      "ms": 22043,
+      "modelTokens": 2243,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "v724e6yl",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n",
+        "findings": [
+          "size: src/f6.ts (+4 -0)",
+          "tests: src/f6.ts (+4 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "v724e6yl",
+          "v724e6yl"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 7,
+      "ms": 18241,
+      "modelTokens": 2275,
+      "containerSeconds": 0,
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "ep99868j",
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n",
+        "findings": [
+          "size: src/f7.ts (+5 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "ep99868j",
+          "ep99868j"
+        ]
+      }
+    },
+    {
+      "arm": "D-kept-tool-cache-by-args",
+      "diff": 8,
+      "ms": 16788,
       "modelTokens": 2266,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "75r8l9a5",
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n",
+        "findings": [
+          "size: src/f8.ts (+2 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "75r8l9a5",
+          "75r8l9a5"
+        ]
+      }
     },
     {
-      "arm": "B-accrete-alone",
-      "diff": 8,
-      "ms": 16162,
-      "modelTokens": 2283,
-      "containerSeconds": 0,
-      "correct": true
-    },
-    {
-      "arm": "B-accrete-alone",
+      "arm": "D-kept-tool-cache-by-args",
       "diff": 9,
-      "ms": 15204,
-      "modelTokens": 2271,
+      "ms": 16482,
+      "modelTokens": 2266,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "54qa6m78",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n",
+        "findings": [
+          "size: src/f9.ts (+3 -0)",
+          "tests: src/f9.ts (+3 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "54qa6m78",
+          "54qa6m78"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 0,
-      "ms": 1040,
-      "modelTokens": 0,
+      "ms": 16065,
+      "modelTokens": 2266,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": true,
+      "output": {
+        "runId": "89wi65rc",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n",
+        "findings": [
+          "size: src/f0.ts (+2 -0)",
+          "tests: src/f0.ts (+2 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 1,
-      "ms": 762,
+      "ms": 441,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "5rt2kl4e",
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n",
+        "findings": [
+          "size: src/f1.ts (+3 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 2,
-      "ms": 660,
+      "ms": 563,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "6vxgqv9f",
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n",
+        "findings": [
+          "size: src/f2.ts (+4 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 3,
-      "ms": 684,
+      "ms": 513,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "85m364b5",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n",
+        "findings": [
+          "size: src/f3.ts (+5 -0)",
+          "tests: src/f3.ts (+5 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 4,
-      "ms": 743,
+      "ms": 495,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "9a5i80cq",
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n",
+        "findings": [
+          "size: src/f4.ts (+2 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 5,
-      "ms": 861,
+      "ms": 526,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "an807xut",
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n",
+        "findings": [
+          "size: src/f5.ts (+3 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 6,
-      "ms": 769,
+      "ms": 557,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "bmou18er",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n",
+        "findings": [
+          "size: src/f6.ts (+4 -0)",
+          "tests: src/f6.ts (+4 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 7,
-      "ms": 760,
+      "ms": 490,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "cojvtk6p",
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n",
+        "findings": [
+          "size: src/f7.ts (+5 -1)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 8,
-      "ms": 552,
+      "ms": 538,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "dytszj1g",
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n",
+        "findings": [
+          "size: src/f8.ts (+2 -2)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     },
     {
-      "arm": "C-both",
+      "arm": "E-kept-tool-cache-by-name",
       "diff": 9,
-      "ms": 619,
+      "ms": 356,
       "modelTokens": 0,
       "containerSeconds": 0,
-      "correct": true
+      "correct": true,
+      "coherent": false,
+      "output": {
+        "runId": "f5he8no2",
+        "decision": "needs-tests",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n",
+        "findings": [
+          "size: src/f9.ts (+3 -0)",
+          "tests: src/f9.ts (+3 -0)",
+          "passes: 1 files checked"
+        ],
+        "setupRunIds": [
+          "89wi65rc",
+          "89wi65rc"
+        ]
+      }
     }
   ],
   "checks": [
     {
-      "name": "model wrote the plan",
+      "name": "model wrote a plan with real state",
       "pass": true,
-      "detail": "4454 ms, 313 chars"
+      "detail": "5009 ms, 577 chars"
     },
     {
       "name": "every arm ran 10 diffs",
       "pass": true,
-      "detail": "10/10/10"
+      "detail": "10/10/10/10/10"
     },
     {
-      "name": "B and C are correct on every diff",
+      "name": "C is correct and coherent on every diff",
       "pass": true,
-      "detail": "A 7, B 10, C 10"
+      "detail": "correct 10, coherent 10"
     },
     {
       "name": "C uses fewer model tokens than A and B, freeze included",
       "pass": true,
-      "detail": "A 23911, B 22699, C 2275"
-    },
-    {
-      "name": "C takes less total time than A and B, freeze included",
-      "pass": true,
-      "detail": "A 172572 ms, B 158005 ms, C 28954 ms"
+      "detail": "A 23941, B 22659, C 2264"
     },
     {
       "name": "forkKept refuses a different engine",
@@ -330,7 +1242,7 @@
     {
       "name": "forkKept refuses an over-age snapshot",
       "pass": true,
-      "detail": "SnapshotTooOld: snapshot is 7208278 ms old; the limit is 3600000 ms"
+      "detail": "SnapshotTooOld: snapshot is 7418602 ms old; the limit is 3600000 ms"
     },
     {
       "name": "forkKept refuses a tool that changed after the freeze",
@@ -343,5 +1255,5 @@
       "detail": "WritesRefused: "
     }
   ],
-  "sha256": "1c7cbadedda157d7a83640f3e2269d4023c9e2812999925902308844e15b2851"
+  "sha256": "23d1ff078263290c8a42efe333a73e4c044f09930b0cc688a89b4dcaf717bed0"
 }
