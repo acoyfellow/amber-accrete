@@ -28,9 +28,9 @@ const client: AccreteClient = {
 
 const CHECKLIST_TOOL = process.env.CHECKLIST_TOOL ?? "diff-checklist-mvv0kxa7";
 
-const OUT = fileURLToPath(new URL("../bench/neutral.json", import.meta.url));
+const OUT = fileURLToPath(new URL(process.env.PLAN_COUNT === undefined ? "../bench/neutral.json" : "../bench/neutral-debug.json", import.meta.url));
 
-const PLAN_COUNT = 10;
+const PLAN_COUNT = Number(process.env.PLAN_COUNT ?? 10);
 
 const DIFF_COUNT = 10;
 
@@ -42,7 +42,7 @@ const COMMIT = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).
 
 const DIRTY = execFileSync("git", ["status", "--porcelain", "--", "evals", "src", "package.json"], { encoding: "utf8" }).trim();
 
-if (DIRTY !== "") throw new Error(`commit evals, src and package.json before running; dirty:\n${DIRTY}`);
+if (DIRTY !== "" && process.env.PLAN_COUNT === undefined) throw new Error(`commit evals, src and package.json before running; dirty:\n${DIRTY}`);
 
 const DIFFS = Array.from({ length: DIFF_COUNT }, (_unused, index) =>
 	[`diff --git a/src/f${index}.ts b/src/f${index}.ts`, `--- a/src/f${index}.ts`, `+++ b/src/f${index}.ts`, "@@ -1,1 +1,2 @@", ...Array.from({ length: index % 3 }, () => "-old"), "+new", ...Array.from({ length: (index % 4) + 1 }, () => "+more"), ""].join("\n"),
@@ -56,6 +56,7 @@ Available tools:
 - tool("next_diff", args) returns the unified diff text of the change to review.
 - tool("checklist", { diff }) returns a markdown checklist string for a diff.
 - tool("decide", args) asks a reviewer for a final decision and returns it as a string.
+The reviewer needs the repository rules and the file count to decide, so the program must pass both to decide along with the checklist.
 The program must get the diff with next_diff, build a checklist, call decide, and end with an object expression that includes decision and checklist.
 Write the program you think is best. Reply with only the code. No fences. No prose.`;
 
@@ -214,7 +215,13 @@ const rowFrom = (plan: number, arm: RunRow["arm"], diff: number, started: number
 	};
 };
 
+const PROMPT_V1_RESULT = { promptChange: "v1 did not require setup; 7 of 7 sampled plans skipped load_rules and index_repo, so there was nothing to freeze. v2 says decide needs the rules and the file count. It still says nothing about run ids, arguments or state." };
+
+const callsSetup = (source: string): boolean => source.includes("load_rules") && source.includes("index_repo");
+
 const waitsForDiffAfterSetup = async (source: string): Promise<boolean> => {
+	if (!callsSetup(source)) return false;
+
 	const counts = meter();
 	const script = new DurableScript({ programId: "probe", storage: memoryStorage(), tools: { ...toolsFor(counts, null), load_rules: read(Any, () => ({ rules: sharedRules ?? ["rule"] })), index_repo: read(Any, () => ({ files: 1 })) }, wasm });
 	const first = await script.run(source);
@@ -259,7 +266,7 @@ for (let planIndex = 0; planIndex < PLAN_COUNT; planIndex++) {
 		const ok = await waitsForDiffAfterSetup(written.source).catch(() => false);
 
 		if (ok) plan = written;
-		else rejected.push({ source: written.source, why: "did not wait on next_diff after setup, or did not finish with a checklist" });
+		else rejected.push({ source: written.source, why: callsSetup(written.source) ? "did not wait on next_diff after setup, or did not finish with a checklist" : "did not call both setup tools" });
 	}
 
 	if (plan === null) throw new Error(`plan ${planIndex}: no runnable plan in ${MAX_ATTEMPTS_PER_PLAN} attempts`);
@@ -320,6 +327,7 @@ for (let planIndex = 0; planIndex < PLAN_COUNT; planIndex++) {
 		needsFreezing,
 		reason,
 	});
+	console.log(`plan ${planIndex} source:\n${plan.source}\nfreeze setup calls ${freezeCounts.setupCalls}, tokens ${freezeCounts.setupTokens}; D setup keys ${JSON.stringify(cache.keys)}`);
 	console.log(`plan ${planIndex}: needsFreezing=${needsFreezing} · C ${C.tokens} tok ${C.correct}/10 · D ${D.tokens} tok ${D.correct}/10 · ${reason}`);
 }
 
@@ -332,6 +340,7 @@ const sealed = {
 	accrete: client.url,
 	engineSha: ENGINE_SHA,
 	prompt: NEUTRAL_PROMPT,
+	promptHistory: PROMPT_V1_RESULT,
 	model: "@cf/moonshotai/kimi-k2.6",
 	temperature: 1,
 	planCount: plans.length,
