@@ -1,0 +1,13 @@
+PASS model wrote the plan · 4454 ms, 313 chars
+A done
+B done
+C done
+PASS every arm ran 10 diffs · 10/10/10
+PASS B and C are correct on every diff · A 7, B 10, C 10
+PASS C uses fewer model tokens than A and B, freeze included · A 23911, B 22699, C 2275
+PASS C takes less total time than A and B, freeze included · A 172572 ms, B 158005 ms, C 28954 ms
+PASS forkKept refuses a different engine · EngineChanged: frozen on engine 4039ef60f53b, running 000000000000
+PASS forkKept refuses an over-age snapshot · SnapshotTooOld: snapshot is 7208278 ms old; the limit is 3600000 ms
+PASS forkKept refuses a tool that changed after the freeze · ToolChanged: diff-checklist-mvv0kxa7 was 111111111111 when frozen, now 2e8cc1e98311
+PASS forkKept refuses write tools unless allowed · WritesRefused: 
+ABC PASS: 9 checks

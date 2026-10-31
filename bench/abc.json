@@ -1,0 +1,347 @@
+{
+  "kind": "amber-accrete-abc",
+  "at": "2026-10-31T13:45:31.644Z",
+  "accrete": "https://accrete.customer0.dev",
+  "engineSha": "4039ef60f53bcfb79032ddb394b9d5f6c0d8cae5638e87e94e8a6c343fd35418",
+  "plan": {
+    "source": "var rules = tool(\"load_rules\", {});\nvar repo = tool(\"index_repo\", {});\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", { checklist: checklist, rules: rules });\n({ decision: decision, checklist: checklist, rules: rules.length, files: repo.files })",
+    "sha256": "e62e88e08683830497fe6da9e3ff914b5ba067930a690de21339956528d57413",
+    "modelMs": 4454,
+    "usage": {
+      "prompt_tokens": 235,
+      "completion_tokens": 77,
+      "total_tokens": 312,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 48.29545593261719
+    }
+  },
+  "arms": {
+    "A-amber-alone": "plan runs from the top every time; the model writes each checklist",
+    "B-accrete-alone": "plan runs from the top every time; the checklist is a kept accrete tool",
+    "C-both": "plan frozen once after setup and kept in accrete; each diff forks from it; checklist is the kept tool"
+  },
+  "freeze": {
+    "ms": 21504,
+    "modelTokens": 2275,
+    "containerSeconds": 0,
+    "key": "ad5cf11f3f0c453965beb49e605dae9ff3025dbf0d5282ba890d6f3e121bb902"
+  },
+  "totals": {
+    "A-amber-alone": {
+      "runs": 10,
+      "correct": 7,
+      "modelTokens": 23911,
+      "wallMs": 172572,
+      "medianMs": 16918,
+      "containerSeconds": 0
+    },
+    "B-accrete-alone": {
+      "runs": 10,
+      "correct": 10,
+      "modelTokens": 22699,
+      "wallMs": 158005,
+      "medianMs": 16162,
+      "containerSeconds": 0
+    },
+    "C-both": {
+      "runs": 10,
+      "correct": 10,
+      "modelTokens": 2275,
+      "wallMs": 28954,
+      "medianMs": 760,
+      "containerSeconds": 0
+    }
+  },
+  "rows": [
+    {
+      "arm": "A-amber-alone",
+      "diff": 0,
+      "ms": 16918,
+      "modelTokens": 2417,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 1,
+      "ms": 17044,
+      "modelTokens": 2385,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 2,
+      "ms": 17962,
+      "modelTokens": 2394,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 3,
+      "ms": 15864,
+      "modelTokens": 2372,
+      "containerSeconds": 0,
+      "correct": false
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 4,
+      "ms": 22256,
+      "modelTokens": 2389,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 5,
+      "ms": 15791,
+      "modelTokens": 2387,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 6,
+      "ms": 20999,
+      "modelTokens": 2389,
+      "containerSeconds": 0,
+      "correct": false
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 7,
+      "ms": 15299,
+      "modelTokens": 2372,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 8,
+      "ms": 15288,
+      "modelTokens": 2409,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "A-amber-alone",
+      "diff": 9,
+      "ms": 15151,
+      "modelTokens": 2397,
+      "containerSeconds": 0,
+      "correct": false
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 0,
+      "ms": 17074,
+      "modelTokens": 2275,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 1,
+      "ms": 16200,
+      "modelTokens": 2262,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 2,
+      "ms": 17590,
+      "modelTokens": 2273,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 3,
+      "ms": 14735,
+      "modelTokens": 2262,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 4,
+      "ms": 14813,
+      "modelTokens": 2298,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 5,
+      "ms": 13604,
+      "modelTokens": 2261,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 6,
+      "ms": 17522,
+      "modelTokens": 2248,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 7,
+      "ms": 15101,
+      "modelTokens": 2266,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 8,
+      "ms": 16162,
+      "modelTokens": 2283,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "B-accrete-alone",
+      "diff": 9,
+      "ms": 15204,
+      "modelTokens": 2271,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 0,
+      "ms": 1040,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 1,
+      "ms": 762,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 2,
+      "ms": 660,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 3,
+      "ms": 684,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 4,
+      "ms": 743,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 5,
+      "ms": 861,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 6,
+      "ms": 769,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 7,
+      "ms": 760,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 8,
+      "ms": 552,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    },
+    {
+      "arm": "C-both",
+      "diff": 9,
+      "ms": 619,
+      "modelTokens": 0,
+      "containerSeconds": 0,
+      "correct": true
+    }
+  ],
+  "checks": [
+    {
+      "name": "model wrote the plan",
+      "pass": true,
+      "detail": "4454 ms, 313 chars"
+    },
+    {
+      "name": "every arm ran 10 diffs",
+      "pass": true,
+      "detail": "10/10/10"
+    },
+    {
+      "name": "B and C are correct on every diff",
+      "pass": true,
+      "detail": "A 7, B 10, C 10"
+    },
+    {
+      "name": "C uses fewer model tokens than A and B, freeze included",
+      "pass": true,
+      "detail": "A 23911, B 22699, C 2275"
+    },
+    {
+      "name": "C takes less total time than A and B, freeze included",
+      "pass": true,
+      "detail": "A 172572 ms, B 158005 ms, C 28954 ms"
+    },
+    {
+      "name": "forkKept refuses a different engine",
+      "pass": true,
+      "detail": "EngineChanged: frozen on engine 4039ef60f53b, running 000000000000"
+    },
+    {
+      "name": "forkKept refuses an over-age snapshot",
+      "pass": true,
+      "detail": "SnapshotTooOld: snapshot is 7208278 ms old; the limit is 3600000 ms"
+    },
+    {
+      "name": "forkKept refuses a tool that changed after the freeze",
+      "pass": true,
+      "detail": "ToolChanged: diff-checklist-mvv0kxa7 was 111111111111 when frozen, now 2e8cc1e98311"
+    },
+    {
+      "name": "forkKept refuses write tools unless allowed",
+      "pass": true,
+      "detail": "WritesRefused: "
+    }
+  ],
+  "sha256": "1c7cbadedda157d7a83640f3e2269d4023c9e2812999925902308844e15b2851"
+}

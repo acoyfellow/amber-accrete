@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": [
+      "node",
+      "workers-types"
+    ],
+    "lib": [
+      "ES2023",
+      "DOM"
+    ],
+    "typeRoots": [
+      "./node_modules/@types",
+      "../amber/node_modules/@cloudflare"
+    ]
+  },
+  "include": [
+    "src",
+    "evals",
+    "test"
+  ]
+}

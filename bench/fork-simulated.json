@@ -1,0 +1,176 @@
+{
+  "kind": "amber-accrete-fork-many",
+  "at": "2026-10-30T21:34:43.384Z",
+  "accrete": "https://accrete.customer0.dev",
+  "model": "@cf/moonshotai/kimi-k2.6",
+  "engineSha": "4039ef60f53bcfb79032ddb394b9d5f6c0d8cae5638e87e94e8a6c343fd35418",
+  "plan": {
+    "source": "var rules = tool(\"load_rules\", {});\nvar repo = tool(\"index_repo\", {});\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", { checklist: checklist, rules: rules });\n({ decision: decision, checklist: checklist, rules: rules.length, files: repo.files })",
+    "sha256": "e62e88e08683830497fe6da9e3ff914b5ba067930a690de21339956528d57413",
+    "modelMs": 3179,
+    "usage": {
+      "prompt_tokens": 235,
+      "completion_tokens": 77,
+      "total_tokens": 312,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "neurons": 48.29545593261719
+    }
+  },
+  "snapshot": {
+    "key": "f456ded3247d82d0a878c648da8313b1ef48458ae8aca2694580223b7fedfb08",
+    "sha256": "6c3011470f3ba0d1576b1572db0df5e8b4353a69ece2b585de584c08c23b4099",
+    "bytes": 2958,
+    "setupMs": 3004,
+    "checklistTool": "diff-checklist-mvv0kxa7",
+    "checklistHash": "2e8cc1e983114d1e55e57e620fe9cd2597621bdde623e90dba78acbc36c03634"
+  },
+  "fresh": {
+    "ms": 3541,
+    "setupCalls": 2,
+    "setupMs": 3004,
+    "checklistContainerSeconds": 0
+  },
+  "forks": [
+    {
+      "ms": 1459,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "needs-tests",
+      "checklistOk": true
+    },
+    {
+      "ms": 986,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "approve",
+      "checklistOk": true
+    },
+    {
+      "ms": 1025,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "approve",
+      "checklistOk": true
+    },
+    {
+      "ms": 939,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "needs-tests",
+      "checklistOk": true
+    },
+    {
+      "ms": 963,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "approve",
+      "checklistOk": true
+    },
+    {
+      "ms": 902,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "approve",
+      "checklistOk": true
+    },
+    {
+      "ms": 887,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "needs-tests",
+      "checklistOk": true
+    },
+    {
+      "ms": 833,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "approve",
+      "checklistOk": true
+    },
+    {
+      "ms": 740,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "approve",
+      "checklistOk": true
+    },
+    {
+      "ms": 1027,
+      "setupCalls": 0,
+      "checklistContainerSeconds": 0,
+      "decision": "needs-tests",
+      "checklistOk": true
+    }
+  ],
+  "branches": [
+    "approve",
+    "request-changes",
+    "needs-tests"
+  ],
+  "summary": {
+    "forkMedianMs": 963,
+    "freshMs": 3541,
+    "forkSetupCalls": 0,
+    "forkSetupModelTokens": 0,
+    "forkContainerSeconds": 0,
+    "snapshotBytes": 2958
+  },
+  "checks": [
+    {
+      "name": "model wrote an amber plan",
+      "pass": true,
+      "detail": "3179 ms, 313 chars"
+    },
+    {
+      "name": "a fresh run pays setup once",
+      "pass": true,
+      "detail": "3541 ms, setup 3004 ms"
+    },
+    {
+      "name": "frozen plan is kept in accrete by hash",
+      "pass": true,
+      "detail": "2958 bytes, key f456ded3247d"
+    },
+    {
+      "name": "10 forks paid no setup",
+      "pass": true,
+      "detail": "1459 ms, 986 ms, 1025 ms, 939 ms, 963 ms, 902 ms, 887 ms, 833 ms, 740 ms, 1027 ms"
+    },
+    {
+      "name": "10 forks used 0 container-seconds",
+      "pass": true
+    },
+    {
+      "name": "each fork reviewed its own diff",
+      "pass": true
+    },
+    {
+      "name": "fork is faster than a fresh run",
+      "pass": true,
+      "detail": "fork median 963 ms vs fresh 3541 ms"
+    },
+    {
+      "name": "3 branches at the decision finish with 3 different results",
+      "pass": true,
+      "detail": "approve, request-changes, needs-tests"
+    },
+    {
+      "name": "fork with a different engine is refused",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "fork whose tool changed since the freeze is refused",
+      "pass": true,
+      "detail": "ToolChanged: diff-checklist-mvv0kxa7 was 111111111111 when frozen, now 2e8cc1e98311"
+    },
+    {
+      "name": "fork with a write tool is refused unless writes are allowed",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "sha256": "1291d75e4663c5aeae97091b165053e98edefb0067938ad0859a4933029bdef2"
+}
