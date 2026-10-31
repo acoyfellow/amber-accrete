@@ -80,6 +80,32 @@ What this does not show:
 - Freezing still keeps values a cache cannot rebuild, such as loop progress or a human's answer in the middle of a run. These plans have no such state, so this eval does not test it.
 - One model and one task shape.
 
+## Eval: do approval plans break under replay?
+
+Receipt: `bench/replay.json`, commit `bef3b9ad`. Kimi K2.6 wrote 10 plans at temperature 1. The task: list 5 open issues, ask a person about each one, close the approved ones, and return a summary. The prompt says nothing about randomness, state, replay or freezing.
+
+Each plan ran on 3 sets of answers, two ways:
+
+- Frozen: the run freezes at each question and resumes with the answer.
+- Replay: after each answer the run starts again from the top. Tool results and earlier answers come back from a cache keyed by tool name and arguments, as replay systems do.
+
+A plan broke under replay if, on any answer set, replay asked more questions than the frozen run, closed an issue twice, closed the wrong issues, did not finish, or returned a different summary.
+
+Result: 0 of 10 plans broke under replay.
+
+- No plan used `Math.random` or `Date`.
+- Replay restarted the program 5 to 5 times per answer set, and every restart rebuilt the same state from the cache.
+
+The detector was checked first. A planted plan puts a `Math.random` run id in each question, as the amber README example does. Under replay it replay asked the human 40 questions; frozen asked 5, and it closed none of the approved issues. The eval refuses to run if the planted plan is not flagged.
+
+What this means: for plans like these, a replay cache gives the same result as freezing. Freezing protects plans that are not repeatable, such as plans that use randomness, the clock, or tools whose answers change between calls. In 30 sampled plans across these evals, the model wrote none of those without being asked.
+
+What this does not show:
+
+- The tools here return the same data every call. Real tools can change, for example a new issue opens between two answers. Replay then sees a different list, and freezing does not.
+- Replay cost grows with the number of questions, because each answer restarts the program. That cost is in the receipt (`replays`) but is not compared here.
+- 4 generated plans were rejected because the frozen run did not ask 5 questions and close exactly the approved issues. They are in the receipt.
+
 ## Earlier receipts
 
 - `bench/fork-simulated.json`: first fork-many run, with simulated setup.
