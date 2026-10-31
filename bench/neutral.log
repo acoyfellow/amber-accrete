@@ -1,0 +1,40 @@
+plan 0 source:
+var rules = tool("load_rules", {});
+var repo = tool("index_repo", {});
+var diff = tool("next_diff", {});
+var checklist = tool("checklist", { diff: diff });
+var decision = tool("decide", { rules: rules.rules, files: repo.files, checklist: checklist });
+({ decision: decision, checklist: checklist })
+freeze setup calls 2, tokens 2275; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 0: needsFreezing=false · C 2275 tok 10/10 · D 2266 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 1 source:
+var rulesResult = tool("load_rules", {});
+var indexResult = tool("index_repo", {});
+var diff = tool("next_diff", {});
+var checklist = tool("checklist", { diff: diff });
+var decision = tool("decide", {
+  rules: rulesResult.rules,
+  fileCount: indexResult.files,
+  checklist: checklist
+});
+({ decision: decision, checklist: checklist })
+freeze setup calls 2, tokens 2261; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 1: needsFreezing=false · C 2261 tok 10/10 · D 2275 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 2 source:
+diff = tool("next_diff", {}).diff;
+checklist = tool("checklist", { diff: diff }).checklist;
+rules = tool("load_rules", {}).rules;
+files = tool("index_repo", {}).files;
+decision = tool("decide", { rules: rules, files: files, checklist: checklist }).decision;
+({ decision: decision, checklist: checklist })
+freeze setup calls 0, tokens 0; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 2: needsFreezing=false · C 22678 tok 0/10 · D 2268 tok 0/10 · setup arguments were the same every run; the cache matched the frozen plan
+plan 3 source:
+const { rules } = tool("load_rules", {});
+const { files } = tool("index_repo", {});
+const diff = tool("next_diff", {});
+const checklist = tool("checklist", { diff });
+const decision = tool("decide", { rules, files, checklist });
+({ decision, checklist })
+freeze setup calls 2, tokens 2275; D setup keys ["load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}","load_rules:{}","index_repo:{}"]
+plan 3: needsFreezing=false · C 2275 tok 10/10 · D 2259 tok 10/10 · setup arguments were the same every run; the cache matched the frozen plan

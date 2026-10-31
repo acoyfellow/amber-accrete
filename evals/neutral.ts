@@ -34,7 +34,7 @@ const PLAN_COUNT = Number(process.env.PLAN_COUNT ?? 10);
 
 const DIFF_COUNT = 10;
 
-const MAX_ATTEMPTS_PER_PLAN = 3;
+const MAX_ATTEMPTS_PER_PLAN = 6;
 
 const MAX_AGE_MS = 6 * 60 * 60 * 1000;
 
@@ -215,22 +215,34 @@ const rowFrom = (plan: number, arm: RunRow["arm"], diff: number, started: number
 	};
 };
 
-const PROMPT_V1_RESULT = { promptChange: "v1 did not require setup; 7 of 7 sampled plans skipped load_rules and index_repo, so there was nothing to freeze. v2 says decide needs the rules and the file count. It still says nothing about run ids, arguments or state." };
+const PROMPT_V1_RESULT = { promptChange: "v1 did not require setup; 7 of 7 sampled plans skipped load_rules and index_repo, so there was nothing to freeze. v2 says decide needs the rules and the file count. It still says nothing about run ids, arguments or state. Run 2 at v2 found a plan that did setup after next_diff and misread the checklist; the filter now requires setup before next_diff and a correct checklist on a sample diff, so every kept plan is one where a freeze can skip setup." };
 
 const callsSetup = (source: string): boolean => source.includes("load_rules") && source.includes("index_repo");
 
 const waitsForDiffAfterSetup = async (source: string): Promise<boolean> => {
 	if (!callsSetup(source)) return false;
 
+	const setupSeen: Array<string> = [];
 	const counts = meter();
-	const script = new DurableScript({ programId: "probe", storage: memoryStorage(), tools: { ...toolsFor(counts, null), load_rules: read(Any, () => ({ rules: sharedRules ?? ["rule"] })), index_repo: read(Any, () => ({ files: 1 })) }, wasm });
+	const tools = {
+		...toolsFor(counts, null),
+		load_rules: read(Schema.Json, () => {
+			setupSeen.push("load_rules");
+			return { rules: sharedRules ?? ["rule"] };
+		}),
+		index_repo: read(Schema.Json, () => {
+			setupSeen.push("index_repo");
+			return { files: 1 };
+		}),
+	};
+	const script = new DurableScript({ programId: "probe", storage: memoryStorage(), tools, wasm });
 	const first = await script.run(source);
 
-	if (first._tag !== "Waiting" || first.name !== "next_diff") return false;
+	if (first._tag !== "Waiting" || first.name !== "next_diff" || setupSeen.length < 2) return false;
 
 	const { outcome } = await answerUntilDone(script, first, DIFFS[0] ?? "");
 
-	return outcome._tag === "Finished" && counts.checklists.length > 0;
+	return outcome._tag === "Finished" && (counts.checklists.at(-1) ?? "").includes(expected(0));
 };
 
 type PlanRecord = {
@@ -266,7 +278,7 @@ for (let planIndex = 0; planIndex < PLAN_COUNT; planIndex++) {
 		const ok = await waitsForDiffAfterSetup(written.source).catch(() => false);
 
 		if (ok) plan = written;
-		else rejected.push({ source: written.source, why: callsSetup(written.source) ? "did not wait on next_diff after setup, or did not finish with a checklist" : "did not call both setup tools" });
+		else rejected.push({ source: written.source, why: callsSetup(written.source) ? "setup did not run before next_diff, or the checklist on a sample diff was wrong" : "did not call both setup tools" });
 	}
 
 	if (plan === null) throw new Error(`plan ${planIndex}: no runnable plan in ${MAX_ATTEMPTS_PER_PLAN} attempts`);
