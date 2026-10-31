@@ -51,6 +51,35 @@ Limits of this verdict:
 - A miscounted lines on 2 of 10 diffs. The checklist text for each row is stored in the receipt.
 - The diffs are synthetic. The decision and review passes are fixed rules, not model calls. One plan, one model.
 
+## Eval: do plans written without a hint need freezing?
+
+Receipt: `bench/neutral.json`, commit `e06dc760`. Kimi K2.6 wrote 10 plans at temperature 1 from a neutral prompt. The prompt lists the same tools. It says the reviewer needs the rules and the file count. It says nothing about run ids, arguments or state.
+
+Each plan ran on the same 10 diffs two ways:
+
+- C: frozen once after setup, kept in accrete, forked per diff.
+- D: run from the top each time, setup results cached by tool name and arguments.
+
+A plan needed freezing if D missed its cache more than one first run explains, or if D was correct less often than C.
+
+Result: 0 of 10 plans needed freezing.
+
+- Every plan called setup with `{}`. The only setup keys seen were `load_rules:{}` and `index_repo:{}`.
+- No plan used `Math.random` or `Date`.
+- C used 2260 to 2298 tokens per plan. D used 2251 to 2294. Both were 10 of 10 correct on every plan.
+
+For plans like these, a plain cache gives the same saving as freezing. The earlier "freezing beats caching" verdict holds only when the prompt makes setup depend on run state.
+
+How the 10 plans were chosen:
+
+- 9 generated plans were rejected, and each one is in the receipt. A plan was kept only if both setup calls ran before `next_diff` and its checklist was correct on a sample diff. This keeps only plans where a freeze can skip setup at all, so the question is narrower: among plans where freezing could help, does a cache help just as much?
+- An earlier prompt did not say the reviewer needs setup. Sampled plans then skipped setup completely, so there was nothing to freeze. The receipt records this under `promptHistory`.
+
+What this does not show:
+
+- Freezing still keeps values a cache cannot rebuild, such as loop progress or a human's answer in the middle of a run. These plans have no such state, so this eval does not test it.
+- One model and one task shape.
+
 ## Earlier receipts
 
 - `bench/fork-simulated.json`: first fork-many run, with simulated setup.

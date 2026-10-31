@@ -1,0 +1,3569 @@
+{
+  "kind": "amber-accrete-neutral-plans",
+  "at": "2026-10-31T18:57:30.449Z",
+  "commit": "e06dc760fe97ecc47052bb400e398855cf78913e",
+  "accrete": "https://accrete.customer0.dev",
+  "engineSha": "4039ef60f53bcfb79032ddb394b9d5f6c0d8cae5638e87e94e8a6c343fd35418",
+  "prompt": "You write a JavaScript program for a sandbox that reviews one code change. There is no import, no require, no await and no fetch.\nThe only way to act is a synchronous function: tool(name, args), which returns a value. args is an object.\nAvailable tools:\n- tool(\"load_rules\", args) returns { rules } where rules is an array of review rule strings for this repository. It is slow and costly.\n- tool(\"index_repo\", args) returns { files } where files is the number of files in the repository. It is slow and costly.\n- tool(\"next_diff\", args) returns the unified diff text of the change to review.\n- tool(\"checklist\", { diff }) returns a markdown checklist string for a diff.\n- tool(\"decide\", args) asks a reviewer for a final decision and returns it as a string.\nThe reviewer needs the repository rules and the file count to decide, so the program must pass both to decide along with the checklist.\nThe program must get the diff with next_diff, build a checklist, call decide, and end with an object expression that includes decision and checklist.\nWrite the program you think is best. Reply with only the code. No fences. No prose.",
+  "promptHistory": {
+    "promptChange": "v1 did not require setup; 7 of 7 sampled plans skipped load_rules and index_repo, so there was nothing to freeze. v2 says decide needs the rules and the file count. It still says nothing about run ids, arguments or state. Run 2 at v2 found a plan that did setup after next_diff and misread the checklist; the filter now requires setup before next_diff and a correct checklist on a sample diff, so every kept plan is one where a freeze can skip setup."
+  },
+  "model": "@cf/moonshotai/kimi-k2.6",
+  "temperature": 1,
+  "planCount": 10,
+  "diffCount": 10,
+  "needed": 0,
+  "plans": [
+    {
+      "index": 0,
+      "source": "data = tool(\"load_rules\", {});\nrules = data.rules;\nindex_data = tool(\"index_repo\", {});\nfile_count = index_data.files;\ndiff = tool(\"next_diff\", {});\nchecklist = tool(\"checklist\", { diff: diff });\ndecision = tool(\"decide\", { rules: rules, file_count: file_count, checklist: checklist });\n({ decision: decision, checklist: checklist })",
+      "sha256": "eb23badf12bf58d781525b618436941264552958a89a364d26767f137824997a",
+      "attempts": 2,
+      "modelMs": 2760,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2262,
+      "totals": {
+        "C": {
+          "tokens": 2262,
+          "correct": 10,
+          "ms": 7950
+        },
+        "D": {
+          "tokens": 2273,
+          "correct": 10,
+          "ms": 19521
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 1,
+      "source": "const rules = tool(\"load_rules\", {}).rules;\nconst files = tool(\"index_repo\", {}).files;\nconst diff = tool(\"next_diff\", {});\nconst checklist = tool(\"checklist\", { diff: diff });\nconst decision = tool(\"decide\", { rules: rules, files: files, checklist: checklist });\n({ decision: decision, checklist: checklist })",
+      "sha256": "b36eb50258f99637cd6c1fbeddfeb6d0ddc56f71975dc269070a3dbeb6c96bf3",
+      "attempts": 2,
+      "modelMs": 2317,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2275,
+      "totals": {
+        "C": {
+          "tokens": 2275,
+          "correct": 10,
+          "ms": 7300
+        },
+        "D": {
+          "tokens": 2275,
+          "correct": 10,
+          "ms": 24964
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 2,
+      "source": "var rulesResult = tool(\"load_rules\", {});\nvar indexResult = tool(\"index_repo\", {});\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", {\n  rules: rulesResult.rules,\n  files: indexResult.files,\n  checklist: checklist\n});\n({\n  decision: decision,\n  checklist: checklist\n})",
+      "sha256": "b253fe95f42562075bb2c6881e7d245a73dea9ea2e8987bbb6c06133df52335f",
+      "attempts": 1,
+      "modelMs": 5959,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2270,
+      "totals": {
+        "C": {
+          "tokens": 2270,
+          "correct": 10,
+          "ms": 7824
+        },
+        "D": {
+          "tokens": 2276,
+          "correct": 10,
+          "ms": 19748
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 3,
+      "source": "const rulesResult = tool(\"load_rules\", {});\nconst repoResult = tool(\"index_repo\", {});\nconst diff = tool(\"next_diff\", {});\nconst checklist = tool(\"checklist\", { diff: diff });\nconst decision = tool(\"decide\", {\n  rules: rulesResult.rules,\n  files: repoResult.files,\n  checklist: checklist\n});\n({\n  decision: decision,\n  checklist: checklist\n})",
+      "sha256": "6c0ee9b95078944004f998c9f3552e2311be5233a4d19dbf0ab3230c72bf9234",
+      "attempts": 1,
+      "modelMs": 4364,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2265,
+      "totals": {
+        "C": {
+          "tokens": 2265,
+          "correct": 10,
+          "ms": 7863
+        },
+        "D": {
+          "tokens": 2294,
+          "correct": 10,
+          "ms": 21996
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 4,
+      "source": "const rulesResponse = tool(\"load_rules\", {});\nconst indexResponse = tool(\"index_repo\", {});\nconst diff = tool(\"next_diff\", {});\nconst checklist = tool(\"checklist\", { diff: diff });\nconst decision = tool(\"decide\", { rules: rulesResponse.rules, files: indexResponse.files, checklist: checklist });\n({ decision: decision, checklist: checklist })",
+      "sha256": "64de641000c54f33b9afe31b2f6532f91abc5a0179aa495253999bf47acb3ada",
+      "attempts": 5,
+      "modelMs": 3842,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2268,
+      "totals": {
+        "C": {
+          "tokens": 2268,
+          "correct": 10,
+          "ms": 7695
+        },
+        "D": {
+          "tokens": 2275,
+          "correct": 10,
+          "ms": 20760
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 5,
+      "source": "var rules_result = tool(\"load_rules\", {});\nvar index_result = tool(\"index_repo\", {});\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", {\n  rules: rules_result.rules,\n  files: index_result.files,\n  checklist: checklist\n});\n({\n  decision: decision,\n  checklist: checklist\n})",
+      "sha256": "105703b908142daaf7ef03bc54ac624cf2fd12c5519edb3f0108ef843b73fd3a",
+      "attempts": 1,
+      "modelMs": 2500,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2290,
+      "totals": {
+        "C": {
+          "tokens": 2290,
+          "correct": 10,
+          "ms": 8354
+        },
+        "D": {
+          "tokens": 2251,
+          "correct": 10,
+          "ms": 21403
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 6,
+      "source": "const { rules } = tool(\"load_rules\", {});\nconst { files } = tool(\"index_repo\", {});\nconst diff = tool(\"next_diff\", {});\nconst checklist = tool(\"checklist\", { diff });\nconst decision = tool(\"decide\", { rules, files, checklist });\n({ decision, checklist })",
+      "sha256": "bf843846daf82e6d75cde186c0ac7eb217b0f14c6195ac1579450b9510678a4d",
+      "attempts": 1,
+      "modelMs": 2150,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2264,
+      "totals": {
+        "C": {
+          "tokens": 2264,
+          "correct": 10,
+          "ms": 7361
+        },
+        "D": {
+          "tokens": 2261,
+          "correct": 10,
+          "ms": 24417
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 7,
+      "source": "var rules = tool(\"load_rules\", {}).rules;\nvar files = tool(\"index_repo\", {}).files;\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", { rules: rules, files: files, checklist: checklist });\n({ decision: decision, checklist: checklist })",
+      "sha256": "165927f41cc2f136138fd6fe37fb6f7d08eeb6127710bba3133f88af7ad0c7cf",
+      "attempts": 1,
+      "modelMs": 2645,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2261,
+      "totals": {
+        "C": {
+          "tokens": 2261,
+          "correct": 10,
+          "ms": 7577
+        },
+        "D": {
+          "tokens": 2275,
+          "correct": 10,
+          "ms": 20438
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 8,
+      "source": "const rulesResult = tool(\"load_rules\", {});\nconst indexResult = tool(\"index_repo\", {});\nconst diff = tool(\"next_diff\", {});\nconst checklist = tool(\"checklist\", { diff });\nconst decision = tool(\"decide\", { rules: rulesResult.rules, files: indexResult.files, checklist });\n({ decision, checklist })",
+      "sha256": "b57363260a4c26531942bb8981b3521de5768e35fa95018c1d0c0a22bacc49e2",
+      "attempts": 4,
+      "modelMs": 2410,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2260,
+      "totals": {
+        "C": {
+          "tokens": 2260,
+          "correct": 10,
+          "ms": 8707
+        },
+        "D": {
+          "tokens": 2292,
+          "correct": 10,
+          "ms": 19369
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    },
+    {
+      "index": 9,
+      "source": "const { rules } = tool(\"load_rules\", {});\nconst { files } = tool(\"index_repo\", {});\nconst diff = tool(\"next_diff\", {});\nconst checklist = tool(\"checklist\", { diff });\nconst decision = tool(\"decide\", { rules, files, checklist });\n({ decision, checklist })",
+      "sha256": "bf843846daf82e6d75cde186c0ac7eb217b0f14c6195ac1579450b9510678a4d",
+      "attempts": 1,
+      "modelMs": 2677,
+      "usesRandom": false,
+      "usesDate": false,
+      "setupKeys": [
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}",
+        "load_rules:{}",
+        "index_repo:{}"
+      ],
+      "distinctSetupKeys": 2,
+      "cache": {
+        "hits": 18,
+        "misses": 2
+      },
+      "freezeTokens": 2298,
+      "totals": {
+        "C": {
+          "tokens": 2298,
+          "correct": 10,
+          "ms": 7614
+        },
+        "D": {
+          "tokens": 2268,
+          "correct": 10,
+          "ms": 18707
+        }
+      },
+      "needsFreezing": false,
+      "reason": "setup arguments were the same every run; the cache matched the frozen plan"
+    }
+  ],
+  "rejected": [
+    {
+      "source": "var diff = tool(\"next_diff\", {}).diff;\nvar checklist = tool(\"checklist\", { diff: diff });\nvar rules = tool(\"load_rules\", {}).rules;\nvar files = tool(\"index_repo\", {}).files;\nvar decision = tool(\"decide\", { rules: rules, files: files, checklist: checklist });\n({ decision: decision, checklist: checklist })",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    },
+    {
+      "source": "var diffResult = tool(\"next_diff\", {});\nvar diff = diffResult.diff || diffResult;\n\nvar rulesResult = tool(\"load_rules\", {});\nvar rules = rulesResult.rules || rulesResult;\n\nvar indexResult = tool(\"index_repo\", {});\nvar files = indexResult.files || indexResult;\n\nvar checklist = tool(\"checklist\", { diff: diff });\n\nvar decision = tool(\"decide\", {\n  rules: rules,\n  files: files,\n  checklist: checklist\n});\n\n({ decision: decision, checklist: checklist })",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    },
+    {
+      "source": "var rules_result = tool(\"load_rules\", {});\nvar index_result = tool(\"index_repo\", {});\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", {\n    rules: rules_result.rules,\n    file_count: index_result.files,\n    checklist: checklist\n});\n{ decision: decision, checklist: checklist }",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    },
+    {
+      "source": "var diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar rulesResult = tool(\"load_rules\", {});\nvar indexResult = tool(\"index_repo\", {});\nvar decision = tool(\"decide\", {\n  rules: rulesResult.rules,\n  fileCount: indexResult.files,\n  checklist: checklist\n});\n({ decision: decision, checklist: checklist })",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    },
+    {
+      "source": "var diff = tool(\"next_diff\", {}).diff;\nvar checklist = tool(\"checklist\", { diff: diff });\nvar rulesData = tool(\"load_rules\", {});\nvar indexData = tool(\"index_repo\", {});\nvar decision = tool(\"decide\", {\n  rules: rulesData.rules,\n  file_count: indexData.files,\n  checklist: checklist\n});\n({ decision: decision, checklist: checklist })",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    },
+    {
+      "source": "var rulesResult = tool(\"load_rules\", {});\nvar repoResult = tool(\"index_repo\", {});\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", {\n  rules: rulesResult.rules,\n  file_count: repoResult.files,\n  checklist: checklist\n});\n{ decision: decision, checklist: checklist }",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    },
+    {
+      "source": "var diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar rulesResult = tool(\"load_rules\", {});\nvar indexResult = tool(\"index_repo\", {});\nvar decision = tool(\"decide\", {\n  rules: rulesResult.rules,\n  fileCount: indexResult.files,\n  checklist: checklist\n});\n({ decision: decision, checklist: checklist })",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    },
+    {
+      "source": "var rulesResult = tool(\"load_rules\", {});\nvar indexResult = tool(\"index_repo\", {});\nvar diff = tool(\"next_diff\", {});\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", {\n  rules: rulesResult.rules,\n  fileCount: indexResult.files,\n  checklist: checklist\n});\n{ decision: decision, checklist: checklist }",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    },
+    {
+      "source": "var diff = tool(\"next_diff\", {}).diff;\nvar rules = tool(\"load_rules\", {}).rules;\nvar files = tool(\"index_repo\", {}).files;\nvar checklist = tool(\"checklist\", { diff: diff });\nvar decision = tool(\"decide\", { rules: rules, files: files, checklist: checklist });\n({ decision: decision, checklist: checklist })",
+      "why": "setup did not run before next_diff, or the checklist on a sample diff was wrong"
+    }
+  ],
+  "rows": [
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 1041,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 1052,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 1013,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 764,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 655,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 566,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 636,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 777,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 741,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 0,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 705,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 15563,
+      "setupCalls": 2,
+      "setupTokens": 2273,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 428,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 483,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 521,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 534,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 373,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 396,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 406,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 463,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 0,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 354,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 668,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 653,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 633,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 753,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 805,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 818,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 946,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 754,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 639,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 1,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 631,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 19268,
+      "setupCalls": 2,
+      "setupTokens": 2275,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 448,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 385,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 1180,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 359,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 476,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 422,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 388,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 1527,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 1,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 511,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 627,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 693,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 779,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 720,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 726,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 737,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 951,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 574,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 972,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 2,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 1045,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 15761,
+      "setupCalls": 2,
+      "setupTokens": 2276,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 479,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 416,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 664,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 386,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 420,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 452,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 409,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 419,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 2,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 342,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 933,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 734,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 694,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 791,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 921,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 1175,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 658,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 602,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 615,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 3,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 740,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 17342,
+      "setupCalls": 2,
+      "setupTokens": 2294,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 458,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 526,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 520,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 356,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 374,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 427,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 444,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 923,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 3,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 626,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 825,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 941,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 1040,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 741,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 816,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 656,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 577,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 566,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 520,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 4,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 1013,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 16946,
+      "setupCalls": 2,
+      "setupTokens": 2275,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 469,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 428,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 484,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 372,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 381,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 395,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 429,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 512,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 4,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 344,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 742,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 1324,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 676,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 657,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 656,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 922,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 901,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 687,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 779,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 5,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 1010,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 16439,
+      "setupCalls": 2,
+      "setupTokens": 2251,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 424,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 462,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 502,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 529,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 546,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 545,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 543,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 871,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 5,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 542,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 766,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 784,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 775,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 819,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 608,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 534,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 734,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 757,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 717,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 6,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 867,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 19652,
+      "setupCalls": 2,
+      "setupTokens": 2261,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 522,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 483,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 472,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 379,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 496,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 552,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 567,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 806,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 6,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 488,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 704,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 889,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 1001,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 777,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 1017,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 506,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 621,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 628,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 681,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 7,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 753,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 15853,
+      "setupCalls": 2,
+      "setupTokens": 2275,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 401,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 456,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 726,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 472,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 453,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 466,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 478,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 568,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 7,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 565,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 839,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 699,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 1047,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 1414,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 831,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 724,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 577,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 1031,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 813,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 8,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 732,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 14988,
+      "setupCalls": 2,
+      "setupTokens": 2292,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 421,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 375,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 499,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 469,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 424,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 450,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 551,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 474,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 8,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 718,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 0,
+      "ms": 711,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 1,
+      "ms": 623,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 2,
+      "ms": 692,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 3,
+      "ms": 671,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 4,
+      "ms": 618,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 5,
+      "ms": 781,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 6,
+      "ms": 694,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 7,
+      "ms": 951,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 8,
+      "ms": 1135,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 9,
+      "arm": "C-frozen",
+      "diff": 9,
+      "ms": 738,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 0,
+      "ms": 14187,
+      "setupCalls": 2,
+      "setupTokens": 2268,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+      },
+      "checklist": "- [ ] src/f0.ts (+2 -0)\n1 files, +2 -0\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 1,
+      "ms": 364,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+      },
+      "checklist": "- [ ] src/f1.ts (+3 -1)\n1 files, +3 -1\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 2,
+      "ms": 339,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+      },
+      "checklist": "- [ ] src/f2.ts (+4 -2)\n1 files, +4 -2\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 3,
+      "ms": 374,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+      },
+      "checklist": "- [ ] src/f3.ts (+5 -0)\n1 files, +5 -0\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 4,
+      "ms": 454,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+      },
+      "checklist": "- [ ] src/f4.ts (+2 -1)\n1 files, +2 -1\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 5,
+      "ms": 481,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+      },
+      "checklist": "- [ ] src/f5.ts (+3 -2)\n1 files, +3 -2\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 6,
+      "ms": 452,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+      },
+      "checklist": "- [ ] src/f6.ts (+4 -0)\n1 files, +4 -0\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 7,
+      "ms": 615,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+      },
+      "checklist": "- [ ] src/f7.ts (+5 -1)\n1 files, +5 -1\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 8,
+      "ms": 1000,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+      },
+      "checklist": "- [ ] src/f8.ts (+2 -2)\n1 files, +2 -2\n"
+    },
+    {
+      "plan": 9,
+      "arm": "D-cache-by-args",
+      "diff": 9,
+      "ms": 441,
+      "setupCalls": 0,
+      "setupTokens": 0,
+      "finished": true,
+      "correct": true,
+      "output": {
+        "decision": "approve",
+        "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+      },
+      "checklist": "- [ ] src/f9.ts (+3 -0)\n1 files, +3 -0\n"
+    }
+  ],
+  "sha256": "eb858fe44053b578d1fdbd86355117f903eab79be51a68e12e4d06fdd3a92261"
+}
