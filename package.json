@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit -p .",
     "test": "vitest run",
     "abc": "tsx evals/abc.ts",
-    "gate": "node scripts/gate.mjs"
+    "gate": "node scripts/gate.mjs",
+    "neutral": "tsx evals/neutral.ts"
   },
   "dependencies": {
     "@acoyfellow/amber": "file:../amber",

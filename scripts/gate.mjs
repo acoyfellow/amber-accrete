@@ -80,6 +80,33 @@ const expectedVerdict = freezeWins ? 'Verdict: freezing beats caching' : cacheEn
 check('README verdict matches the receipt', verdictLine.startsWith(expectedVerdict), `${expectedVerdict} | ${verdictLine.slice(0, 60)}`);
 check('README cites every arm total', [c, d, e, sealed.totals?.['A-no-kept-tool-no-freeze'], sealed.totals?.['B-kept-tool-no-freeze']].every((arm) => arm !== undefined && readme.includes(String(arm.modelTokens))));
 
+const NEUTRAL = 'bench/neutral.json';
+const neutral = existsSync(NEUTRAL) ? JSON.parse(readFileSync(NEUTRAL, 'utf8')) : {};
+const { sha256: neutralSha, ...neutralBody } = neutral;
+const codeCommit = (() => {
+  try {
+    return execFileSync('git', ['log', '-1', '--format=%H', '--', 'evals', 'src', 'package.json'], { encoding: 'utf8' }).trim();
+  } catch {
+    return '';
+  }
+})();
+const codeDirty = (() => {
+  try {
+    return execFileSync('git', ['status', '--porcelain', '--', 'evals', 'src', 'package.json'], { encoding: 'utf8' }).trim() !== '';
+  } catch {
+    return true;
+  }
+})();
+check('neutral receipt hash matches its content', neutralSha === createHash('sha256').update(JSON.stringify(neutralBody, null, 2)).digest('hex'));
+check('neutral receipt commit is the latest code commit, with no uncommitted code', typeof neutral.commit === 'string' && neutral.commit === codeCommit && !codeDirty, `${String(neutral.commit).slice(0, 8)} vs ${codeCommit.slice(0, 8)}${codeDirty ? ' (dirty)' : ''}`);
+check('neutral prompt does not mention run ids or passing state', typeof neutral.prompt === 'string' && !new RegExp('run ?id|runId|pass.*state', 'i').test(neutral.prompt));
+const neutralRows = Array.isArray(neutral.rows) ? neutral.rows : [];
+const cells = new Set(neutralRows.map((row) => `${row.plan}|${row.arm}|${row.diff}`));
+check('10 plans x 10 diffs x 2 arms', Array.isArray(neutral.plans) && neutral.plans.length === 10 && neutralRows.length === 200 && cells.size === 200);
+const neededCount = Array.isArray(neutral.plans) ? neutral.plans.filter((plan) => plan.needsFreezing).length : -1;
+check('neutral needed count matches the per-plan flags', neutral.needed === neededCount);
+check('README states the neutral count', readme.includes(`${neededCount} of 10 plans needed freezing`), `${neededCount} of 10`);
+
 check('accrete fork gate is retired with its receipts moved here', existsSync('bench/fork-real.json') && !existsSync(join(ACCRETE, 'scripts/fork-gate.mjs')));
 
 const failed = checks.filter((entry) => !entry.pass).length;
