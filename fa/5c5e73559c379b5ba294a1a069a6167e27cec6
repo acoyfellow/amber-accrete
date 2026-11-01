@@ -1,0 +1,21 @@
+.gitleaksignore
+  s_5ddfc8f4108175::t_62e41121c23a22 1-4
+LICENSE
+  s_5ddfc8f4108175::t_bb33ad90f9375f 1-21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fa5c5e73559c379b5ba294a1a069a6167e27cec6",
+  "prompts": {},
+  "sessions": {
+    "s_5ddfc8f4108175": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a0fc06-d951-77a8-8358-cd5dae6891bd",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Jordan Coeyman <jcoeyman@cloudflare.com>"
+    }
+  }
+}
