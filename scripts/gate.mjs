@@ -138,6 +138,14 @@ const brokenCount = replayPlans.filter((plan) => plan.broke).length;
 check('replay broken count matches per-plan flags', replay.broken === brokenCount);
 check('README states the replay count', readme.includes(`${brokenCount} of 10 plans broke under replay`), `${brokenCount} of 10`);
 
+const DRIFT = 'bench/drift.json';
+const drift = existsSync(DRIFT) ? JSON.parse(readFileSync(DRIFT, 'utf8')) : {};
+const { sha256: driftSha, ...driftBody } = drift;
+check('drift receipt hash matches its content', driftSha === createHash('sha256').update(JSON.stringify(driftBody, null, 2)).digest('hex'));
+check('drift eval code is unchanged since the receipt commit', typeof drift.commit === 'string' && unchangedSince(drift.commit, ['evals/drift.ts', 'src']), String(drift.commit).slice(0, 8));
+check('drift reused the exact plans from the replay receipt', drift.plansFrom?.sha256 === replaySha && Array.isArray(drift.plans) && drift.plans.length === 10 && drift.plans.every((plan, index) => plan.sha256 === replayPlans[index]?.sha256));
+check('README states the drift counts', readme.includes(`cached replay matched frozen on ${10 - drift.cachedBroken} of 10`) && readme.includes(`fresh-read replay differed on ${drift.liveBroken} of 10`), `${drift.cachedBroken} / ${drift.liveBroken}`);
+
 check('accrete fork gate is retired with its receipts moved here', existsSync('bench/fork-real.json') && !existsSync(join(ACCRETE, 'scripts/fork-gate.mjs')));
 
 const failed = checks.filter((entry) => !entry.pass).length;
