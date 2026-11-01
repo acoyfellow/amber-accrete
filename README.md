@@ -106,6 +106,26 @@ What this does not show:
 - Replay cost grows with the number of questions, because each answer restarts the program. That cost is in the receipt (`replays`) but is not compared here.
 - 4 generated plans were rejected because the frozen run did not ask 5 questions and close exactly the approved issues. They are in the receipt.
 
+## Eval: what if the world changes while a person decides?
+
+Receipt: `bench/drift.json`, commit `82a87280`. It reuses the exact 10 plans from `bench/replay.json`, with no new model calls. After the person answers 2 questions, a new issue #106 opens. The person says no to issues that were not in the first list.
+
+Three ways to continue after each answer:
+
+- Frozen: resume where the run stopped. The list it read at the start stays in memory.
+- Cached replay: restart from the top, with `list_issues` served from the cache.
+- Fresh-read replay: restart from the top, but read `list_issues` again, as code does when it must not act on stale data.
+
+Results:
+
+- Frozen asked 5 questions and closed exactly the approved issues on 10 of 10 plans.
+- cached replay matched frozen on 10 of 10 plans. It is correct only because the cache hides the new issue.
+- fresh-read replay differed on 10 of 10 plans. Every plan asked the person a 6th question, about #106, and returned a different summary. The closed issues were still right, because the person said no to #106.
+
+What this means: replay gives you a choice. Cache the reads, and replay acts on the world as it was at the start, which is the same as freezing. Read again, and the run changes partway through: a person gets a question they did not expect, and the summary no longer matches what they saw. Freezing removes the choice. The run keeps the view it started with.
+
+Neither behavior is always right. Freezing is not better than a cache here. It makes "keep the first view" happen without a cache keyed by tool arguments.
+
 ## Earlier receipts
 
 - `bench/fork-simulated.json`: first fork-many run, with simulated setup.

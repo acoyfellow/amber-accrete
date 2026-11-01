@@ -1,0 +1,2985 @@
+{
+  "kind": "amber-accrete-replay-drift",
+  "at": "2026-11-01T11:34:28.732Z",
+  "commit": "82a87280b8c7abf7be7e146cb52c6389c9e93600",
+  "plansFrom": {
+    "receipt": "bench/replay.json",
+    "commit": "bef3b9ad8d213368cd969c4c3c910dbc2b8a3453",
+    "sha256": "00477898e0d8c71e6e1e3a5ce83e644d73d1747d9b88d7ccf9fede9fe041f977"
+  },
+  "drift": {
+    "newIssue": {
+      "id": 106,
+      "title": "Crash on empty cart"
+    },
+    "opensAfterAnswers": 2,
+    "answering": "by issue id in the question; the person says no to issues not in the original list"
+  },
+  "answerSets": [
+    [
+      true,
+      false,
+      true,
+      false,
+      true
+    ],
+    [
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    [
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  ],
+  "planCount": 10,
+  "frozenCorrect": 10,
+  "cachedBroken": 0,
+  "liveBroken": 10,
+  "plans": [
+    {
+      "index": 0,
+      "sha256": "741f1599250d7d00f8d6033bcfb80a8800ffffa803c5248c1ec076e55db1c459",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 3
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 3
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 6,
+              "totalClosed": 3
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 5,
+              "totalClosed": 0
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 5,
+              "totalClosed": 0
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 6,
+              "totalClosed": 0
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 5
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 5
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 6,
+              "totalClosed": 5
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 1,
+      "sha256": "ecce449ac9874d9eb9e56dd7a2caccca91087b6c5b71c8c41520f7f62862f060",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 3
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 3
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 6,
+              "totalClosed": 3
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 5,
+              "totalClosed": 0
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 5,
+              "totalClosed": 0
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 6,
+              "totalClosed": 0
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 5
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 5
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 6,
+              "totalClosed": 5
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 2,
+      "sha256": "64954cd1789ab1c9efa9d78fa21367e3498ec9e75e4e891658a5fd7660a1b1a7",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 5,
+              "closedCount": 3
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 5,
+              "closedCount": 3
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 6,
+              "closedCount": 3
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 5,
+              "closedCount": 0
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 5,
+              "closedCount": 0
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 6,
+              "closedCount": 0
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 5,
+              "closedCount": 5
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 5,
+              "closedCount": 5
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 6,
+              "closedCount": 5
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 3,
+      "sha256": "cf951717847df6ef9e5b7bd957848edf65accce145980a1a46f59ca30c8fbf7c",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 6,
+              "closed": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 5,
+              "closed": []
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 5,
+              "closed": []
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 6,
+              "closed": []
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 6,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 4,
+      "sha256": "57102360626ba12521191d9d913f41d87fc08b7b2efef86a7bd5f5d597ca5ee1",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "issuesFound": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [
+                101,
+                103,
+                105
+              ],
+              "countClosed": 3
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "issuesFound": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [
+                101,
+                103,
+                105
+              ],
+              "countClosed": 3
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "issuesFound": [
+                106,
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [
+                101,
+                103,
+                105
+              ],
+              "countClosed": 3
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "issuesFound": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [],
+              "countClosed": 0
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "issuesFound": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [],
+              "countClosed": 0
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "issuesFound": [
+                106,
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [],
+              "countClosed": 0
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "issuesFound": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "countClosed": 5
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "issuesFound": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "countClosed": 5
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "issuesFound": [
+                106,
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "issuesClosed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "countClosed": 5
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 5,
+      "sha256": "570f25078b114f959bddee23262cebf33d3a03ef84895811b826862cea38c5e7",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "total": 5,
+              "asked": 5,
+              "closedCount": 3,
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "total": 5,
+              "asked": 5,
+              "closedCount": 3,
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #106: \"Crash on empty cart\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "total": 6,
+              "asked": 6,
+              "closedCount": 3,
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "total": 5,
+              "asked": 5,
+              "closedCount": 0,
+              "closedIds": []
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "total": 5,
+              "asked": 5,
+              "closedCount": 0,
+              "closedIds": []
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #106: \"Crash on empty cart\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "total": 6,
+              "asked": 6,
+              "closedCount": 0,
+              "closedIds": []
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "total": 5,
+              "asked": 5,
+              "closedCount": 5,
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "total": 5,
+              "asked": 5,
+              "closedCount": 5,
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101: \"Login button misaligned on mobile\"?",
+              "Close issue #102: \"Typo in README install section\"?",
+              "Close issue #106: \"Crash on empty cart\"?",
+              "Close issue #103: \"Flaky test in cart checkout\"?",
+              "Close issue #104: \"Dark mode colors too low contrast\"?",
+              "Close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "total": 6,
+              "asked": 6,
+              "closedCount": 5,
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 6,
+      "sha256": "ed6a04d833e9956bfa70e1427b5b11e8cc2947a6cb9c4c588ba6345b266d6d8a",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "count": 3,
+              "totalAsked": 5
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "count": 3,
+              "totalAsked": 5
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "count": 3,
+              "totalAsked": 6
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "count": 0,
+              "totalAsked": 5
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "count": 0,
+              "totalAsked": 5
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "count": 0,
+              "totalAsked": 6
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "count": 5,
+              "totalAsked": 5
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "count": 5,
+              "totalAsked": 5
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "count": 5,
+              "totalAsked": 6
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 7,
+      "sha256": "2ad868d780205ffcff357e21ae48392a1c6af1399b932059a2a5cfdfedcc444b",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #106: Crash on empty cart?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 6,
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 5,
+              "closed": [],
+              "closedIds": []
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 5,
+              "closed": [],
+              "closedIds": []
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #106: Crash on empty cart?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 6,
+              "closed": [],
+              "closedIds": []
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101: Login button misaligned on mobile?",
+              "Close issue #102: Typo in README install section?",
+              "Close issue #106: Crash on empty cart?",
+              "Close issue #103: Flaky test in cart checkout?",
+              "Close issue #104: Dark mode colors too low contrast?",
+              "Close issue #105: Remove unused lodash import?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 6,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 8,
+      "sha256": "741f1599250d7d00f8d6033bcfb80a8800ffffa803c5248c1ec076e55db1c459",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 3
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 3
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "totalAsked": 6,
+              "totalClosed": 3
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 5,
+              "totalClosed": 0
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 5,
+              "totalClosed": 0
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "closed": [],
+              "totalAsked": 6,
+              "totalClosed": 0
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 5
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 5,
+              "totalClosed": 5
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Close issue #101 \"Login button misaligned on mobile\"?",
+              "Close issue #102 \"Typo in README install section\"?",
+              "Close issue #106 \"Crash on empty cart\"?",
+              "Close issue #103 \"Flaky test in cart checkout\"?",
+              "Close issue #104 \"Dark mode colors too low contrast\"?",
+              "Close issue #105 \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "totalAsked": 6,
+              "totalClosed": 5
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    },
+    {
+      "index": 9,
+      "sha256": "9a763a56d4f0dc0960cd642e1954d029d1843990ad31e32161f18e2d53726320",
+      "cells": [
+        {
+          "answers": [
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #106: \"Crash on empty cart\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              103,
+              105
+            ],
+            "result": {
+              "asked": 6,
+              "closed": [
+                101,
+                103,
+                105
+              ],
+              "closedIds": [
+                101,
+                103,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            false,
+            false,
+            false,
+            false,
+            false
+          ],
+          "frozen": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 5,
+              "closed": [],
+              "closedIds": []
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 5,
+              "closed": [],
+              "closedIds": []
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #106: \"Crash on empty cart\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [],
+            "result": {
+              "asked": 6,
+              "closed": [],
+              "closedIds": []
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        },
+        {
+          "answers": [
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "frozen": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null
+          },
+          "replayCached": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 5,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 5
+          },
+          "replayLive": {
+            "asked": [
+              "Should I close issue #101: \"Login button misaligned on mobile\"?",
+              "Should I close issue #102: \"Typo in README install section\"?",
+              "Should I close issue #106: \"Crash on empty cart\"?",
+              "Should I close issue #103: \"Flaky test in cart checkout\"?",
+              "Should I close issue #104: \"Dark mode colors too low contrast\"?",
+              "Should I close issue #105: \"Remove unused lodash import\"?"
+            ],
+            "closed": [
+              101,
+              102,
+              103,
+              104,
+              105
+            ],
+            "result": {
+              "asked": 6,
+              "closed": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ],
+              "closedIds": [
+                101,
+                102,
+                103,
+                104,
+                105
+              ]
+            },
+            "failed": null,
+            "replays": 6
+          },
+          "cached": {
+            "broke": false,
+            "reasons": []
+          },
+          "live": {
+            "broke": true,
+            "reasons": [
+              "replay asked the human 6 questions; frozen asked 5",
+              "replay summary differs from frozen summary"
+            ]
+          }
+        }
+      ],
+      "cachedBroke": false,
+      "liveBroke": true,
+      "frozenCorrect": true
+    }
+  ],
+  "sha256": "f08ff9f8a48bcbea6cac0871278e5d806c6b36fd9bafeaa303f2ad0765372aa4"
+}
