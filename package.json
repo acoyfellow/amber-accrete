@@ -14,7 +14,9 @@
     "neutral": "tsx evals/neutral.ts",
     "postinstall": "node scripts/one-effect.mjs",
     "replay": "tsx evals/replay.ts",
-    "drift": "tsx evals/drift.ts"
+    "drift": "tsx evals/drift.ts",
+    "judged": "tsx evals/judged.ts",
+    "test:domain": "cd domain && npm install --ignore-scripts --legacy-peer-deps && vitest run"
   },
   "dependencies": {
     "@acoyfellow/amber": "file:../amber"
