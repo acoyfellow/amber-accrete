@@ -1,0 +1,18 @@
+{
+  "seat": "closer-1",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 7,
+  "toolCalls": 6,
+  "steers": 0,
+  "usd": 0.044,
+  "ms": 37257,
+  "branch": "seat/closer-1",
+  "sha": "52f01a08c282908b3f61a92adcb04b3158c37f07",
+  "changedLines": null,
+  "lastText": "I wrote `scripts/closer.js`. It passes the existing tests (2/2) and three extra scenarios I ran and then removed.\n\nHow it behaves:\n- It calls `list_issues` once, then goes through the issues in order. For each one it calls `ask_human` with `{ id, question }`, where the question contains `#<id>` and "
+}

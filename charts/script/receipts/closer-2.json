@@ -1,0 +1,18 @@
+{
+  "seat": "closer-2",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 6,
+  "toolCalls": 5,
+  "steers": 0,
+  "usd": 0.031,
+  "ms": 44856,
+  "branch": "seat/closer-2",
+  "sha": "e97d6afe672a3c1f437a07b3654f367f3a8a5973",
+  "changedLines": null,
+  "lastText": "I wrote `scripts/closer.js`. `npm test` passes, and a mixed scenario gives the expected report.\n\nThe script lists the issues once, then asks about each one in order with `for...of`. It closes only the issues the person approves, and each issue is asked about and closed at most once. A close that com"
+}

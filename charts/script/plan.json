@@ -1,0 +1,20 @@
+{
+  "name": "closer-script",
+  "repo": "seed",
+  "model": "claude-haiku-5-5",
+  "parallel": 5,
+  "minutesPerSeat": 10,
+  "worstCaseUsdPerSeat": 0.3,
+  "budgetUsd": 1.5,
+  "repeat": 5,
+  "hidden": ["hidden", "reference", "mutants"],
+  "test": "npm install --ignore-scripts --no-audit --no-fund >/dev/null && node --import tsx --test",
+  "seats": [
+    {
+      "id": "closer",
+      "task": "tasks/close-issues.md",
+      "writable": ["scripts/closer.js", "test/closer.test.mjs"],
+      "grade": "npm install --ignore-scripts --no-audit --no-fund >/dev/null 2>&1; sh \"$ASSAY_PLAN_DIR/grade.sh\""
+    }
+  ]
+}

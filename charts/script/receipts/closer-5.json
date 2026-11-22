@@ -1,0 +1,18 @@
+{
+  "seat": "closer-5",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 7,
+  "toolCalls": 6,
+  "steers": 0,
+  "usd": 0.0379,
+  "ms": 46070,
+  "branch": "seat/closer-5",
+  "sha": "fec8f09d577d1c8971d14eaef68e86ec2d2b07ed",
+  "changedLines": null,
+  "lastText": "I wrote `scripts/closer.js`. The existing test passes, and so do five extra scenarios I ran in a temporary test file, which I then deleted.\n\nThe script lists the issues once. It asks about each one in order, in a `for...of` loop, and waits on each answer with no timeout. It closes only the issues th"
+}

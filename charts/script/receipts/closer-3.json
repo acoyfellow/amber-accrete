@@ -1,0 +1,18 @@
+{
+  "seat": "closer-3",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 7,
+  "toolCalls": 6,
+  "steers": 0,
+  "usd": 0.0351,
+  "ms": 39919,
+  "branch": "seat/closer-3",
+  "sha": "02206d102d341bf851d66a2afee3b221a5e989b5",
+  "changedLines": null,
+  "lastText": "I wrote `scripts/closer.js`. The existing test passes, and so do two scratch tests I ran and then removed. The scratch tests covered approve, skip and refuse ordering, and the empty list.\n\nThe script does the following:\n- Calls `list_issues` once.\n- Asks about each issue in listed order, one `ask_hu"
+}

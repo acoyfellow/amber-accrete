@@ -1,0 +1,32 @@
+// Ask a person about each open issue, close only the approved ones, and report.
+const issues = tool("list_issues", {});
+
+const closed = [];
+const refused = [];
+const skipped = [];
+const seen = {};
+
+for (const issue of issues) {
+  const key = String(issue.id);
+  if (seen[key]) continue; // never ask or close the same issue twice
+  seen[key] = true;
+
+  const answer = tool("ask_human", {
+    id: issue.id,
+    question: `Close issue #${issue.id}${issue.title ? `: ${issue.title}` : ""}?`,
+  });
+
+  if (!answer || answer.approve !== true) {
+    skipped.push(issue.id);
+    continue;
+  }
+
+  const result = tool("close_issue", { id: issue.id });
+  if (result && result.closed === true) {
+    closed.push(issue.id);
+  } else {
+    refused.push({ id: issue.id, reason: result && result.reason !== undefined ? result.reason : "refused" });
+  }
+}
+
+({ closed, refused, skipped });

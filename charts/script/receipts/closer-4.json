@@ -1,0 +1,18 @@
+{
+  "seat": "closer-4",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 7,
+  "toolCalls": 7,
+  "steers": 0,
+  "usd": 0.0387,
+  "ms": 46004,
+  "branch": "seat/closer-4",
+  "sha": "93c4473e590b7a049030730a2103089d06cb77b1",
+  "changedLines": null,
+  "lastText": "I wrote `scripts/closer.js`. The existing tests pass, and a temporary test I ran and then removed confirmed the behaviour below.\n\nThe script lists the issues once, then goes through them in order with `for...of`. For each one it calls `ask_human` with the id and a question containing `#<id>`. It clo"
+}

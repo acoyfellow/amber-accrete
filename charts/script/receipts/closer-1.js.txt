@@ -1,0 +1,36 @@
+// Ask a person about each open issue, in the order listed, and close the ones they approve.
+// Every tool() call is made from a for...of loop (never inside forEach or map), so amber can pause at ask_human.
+
+const issues = tool("list_issues", {});
+const closed = [];
+const refused = [];
+const skipped = [];
+const seen = [];
+
+for (const issue of issues) {
+  // An issue is asked about and closed at most once, even if the list repeats it.
+  if (seen.includes(issue.id)) continue;
+  seen.push(issue.id);
+
+  const answer = tool("ask_human", {
+    id: issue.id,
+    question: `Close issue #${issue.id}: ${issue.title}?`,
+  });
+
+  if (!answer || answer.approve !== true) {
+    skipped.push(issue.id);
+    continue;
+  }
+
+  const result = tool("close_issue", { id: issue.id });
+  if (result && result.closed === true) {
+    closed.push(result.id);
+  } else {
+    refused.push({
+      id: issue.id,
+      reason: result && result.reason !== undefined ? result.reason : "close was not confirmed",
+    });
+  }
+}
+
+({ closed, refused, skipped })
