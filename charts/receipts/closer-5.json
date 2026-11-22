@@ -1,0 +1,18 @@
+{
+  "seat": "closer-5",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 9,
+  "toolCalls": 8,
+  "steers": 0,
+  "usd": 0.0603,
+  "ms": 48523,
+  "branch": "seat/closer-5",
+  "sha": "d0992b8e69bd66b418833380ede836b0b8aaf271",
+  "changedLines": null,
+  "lastText": "I wrote `charts/closer.scxml`. `npm test` passes, and four scratch scenarios behaved as specified: empty list, mixed approve/skip, a refused close, and no approvals.\n\nThe chart runs one issue at a time: `listing` → `next` → `asking` → (`closing` if approved) → `next`, until every issue has been hand"
+}

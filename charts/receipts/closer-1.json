@@ -1,0 +1,18 @@
+{
+  "seat": "closer-1",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 9,
+  "toolCalls": 8,
+  "steers": 0,
+  "usd": 0.0834,
+  "ms": 49271,
+  "branch": "seat/closer-1",
+  "sha": "f86a6f2d421a44c2f241f0c4f0c8d0002cd0f0d5",
+  "changedLines": null,
+  "lastText": "I wrote `charts/closer.scxml`. `npm test` passes, and I ran four scenarios through the harness with the expected results.\n\nThe chart lists the issues once, then asks about each in order, one at a time, with no timers. Approved issues are closed one at a time, and each close is either recorded as clo"
+}

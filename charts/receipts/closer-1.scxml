@@ -1,0 +1,76 @@
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" datamodel="ecmascript" name="closer" initial="listing">
+  <datamodel>
+    <data id="issues" expr="[]"/>
+    <data id="index" expr="0"/>
+    <data id="current" expr="null"/>
+    <data id="closed" expr="[]"/>
+    <data id="refused" expr="[]"/>
+    <data id="skipped" expr="[]"/>
+  </datamodel>
+
+  <!-- Ask a person about each issue, one at a time, in the order listed. -->
+
+  <state id="listing">
+    <onentry>
+      <send type="urn:issues" event="list"/>
+    </onentry>
+    <transition event="listed" target="next">
+      <assign location="issues" expr="_event.data.issues"/>
+      <assign location="index" expr="0"/>
+    </transition>
+  </state>
+
+  <state id="next">
+    <transition cond="index &lt; issues.length" target="asking">
+      <assign location="current" expr="issues[index].id"/>
+    </transition>
+    <transition cond="index &gt;= issues.length" target="report"/>
+  </state>
+
+  <state id="asking">
+    <onentry>
+      <send type="urn:human" event="ask">
+        <param name="id" expr="current"/>
+        <param name="question" expr="'Close issue ' + current + ' (' + issues[index].title + ')?'"/>
+      </send>
+    </onentry>
+    <transition event="answered" cond="_event.data.approve === true" target="closing"/>
+    <transition event="answered" cond="_event.data.approve !== true" target="next">
+      <assign location="skipped" expr="[...skipped, current]"/>
+      <assign location="index" expr="index + 1"/>
+    </transition>
+  </state>
+
+  <!-- Close an approved issue. Only one close is in flight at a time. -->
+
+  <state id="closing">
+    <onentry>
+      <send type="urn:issues" event="close">
+        <param name="id" expr="current"/>
+      </send>
+    </onentry>
+    <transition event="closed" target="next">
+      <assign location="closed" expr="[...closed, current]"/>
+      <assign location="index" expr="index + 1"/>
+    </transition>
+    <transition event="refused" target="next">
+      <assign location="refused" expr="[...refused, { id: current, reason: _event.data.reason }]"/>
+      <assign location="index" expr="index + 1"/>
+    </transition>
+  </state>
+
+  <!-- Report once every issue has been handled, then finish. -->
+
+  <state id="report">
+    <onentry>
+      <send type="urn:report" event="done">
+        <param name="closed" expr="closed"/>
+        <param name="refused" expr="refused"/>
+        <param name="skipped" expr="skipped"/>
+      </send>
+    </onentry>
+    <transition target="finished"/>
+  </state>
+
+  <final id="finished"/>
+</scxml>

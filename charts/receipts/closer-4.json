@@ -1,0 +1,18 @@
+{
+  "seat": "closer-4",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 8,
+  "toolCalls": 7,
+  "steers": 0,
+  "usd": 0.0699,
+  "ms": 47939,
+  "branch": "seat/closer-4",
+  "sha": "7ef5fce6af7b795f0f072fd3f0471defe7eee0a9",
+  "changedLines": null,
+  "lastText": "I wrote `charts/closer.scxml`. The existing test passes, and my own runs match the spec.\n\nThe chart lists once, then asks about each issue in order, one at a time. Only an approved issue is sent to `urn:issues` `close`. The chart waits for `closed` or `refused` before moving on, so no issue is close"
+}

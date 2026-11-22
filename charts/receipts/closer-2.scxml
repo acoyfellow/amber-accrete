@@ -1,0 +1,72 @@
+<scxml xmlns="http://www.w3.org/2005/07/scxml" version="1.0" datamodel="ecmascript" name="closer" initial="listing">
+  <datamodel>
+    <data id="issues" expr="[]"/>
+    <data id="index" expr="0"/>
+    <data id="closed" expr="[]"/>
+    <data id="refused" expr="[]"/>
+    <data id="skipped" expr="[]"/>
+  </datamodel>
+
+  <!-- Ask for the open issues once. -->
+  <state id="listing">
+    <onentry>
+      <send type="urn:issues" event="list"/>
+    </onentry>
+    <transition event="listed" target="next">
+      <assign location="issues" expr="_event.data.issues"/>
+      <assign location="index" expr="0"/>
+    </transition>
+  </state>
+
+  <!-- Pick the next issue, or report when none is left. -->
+  <state id="next">
+    <transition cond="index &lt; issues.length" target="asking"/>
+    <transition target="reporting"/>
+  </state>
+
+  <!-- Ask a person about the current issue. -->
+  <state id="asking">
+    <onentry>
+      <send type="urn:human" event="ask">
+        <param name="id" expr="issues[index].id"/>
+        <param name="question" expr="'Close issue ' + issues[index].id + ' (' + issues[index].title + ')?'"/>
+      </send>
+    </onentry>
+    <transition event="answered" cond="_event.data.approve === true" target="closing"/>
+    <transition event="answered" cond="_event.data.approve !== true" target="next">
+      <assign location="skipped" expr="skipped.concat([issues[index].id])"/>
+      <assign location="index" expr="index + 1"/>
+    </transition>
+  </state>
+
+  <!-- Close the approved issue; wait for the answer before moving on. -->
+  <state id="closing">
+    <onentry>
+      <send type="urn:issues" event="close">
+        <param name="id" expr="issues[index].id"/>
+      </send>
+    </onentry>
+    <transition event="closed" target="next">
+      <assign location="closed" expr="closed.concat([_event.data.id])"/>
+      <assign location="index" expr="index + 1"/>
+    </transition>
+    <transition event="refused" target="next">
+      <assign location="refused" expr="refused.concat([{ id: _event.data.id, reason: _event.data.reason }])"/>
+      <assign location="index" expr="index + 1"/>
+    </transition>
+  </state>
+
+  <!-- Report the result exactly once, then finish. -->
+  <state id="reporting">
+    <onentry>
+      <send type="urn:report" event="done">
+        <param name="closed" expr="closed"/>
+        <param name="refused" expr="refused"/>
+        <param name="skipped" expr="skipped"/>
+      </send>
+    </onentry>
+    <transition target="finished"/>
+  </state>
+
+  <final id="finished"/>
+</scxml>

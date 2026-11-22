@@ -1,0 +1,18 @@
+{
+  "seat": "closer-3",
+  "task": "closer",
+  "round": 1,
+  "outcome": "stopped",
+  "killedBy": "",
+  "passed": true,
+  "gradeOutput": ".....\npass: hidden tests and existing tests",
+  "turns": 7,
+  "toolCalls": 6,
+  "steers": 0,
+  "usd": 0.0689,
+  "ms": 38429,
+  "branch": "seat/closer-3",
+  "sha": "3823417bbce7c306e0fd3719cbe39890e8fd7984",
+  "changedLines": null,
+  "lastText": "I wrote `charts/closer.scxml`. `npm test` passes (both existing tests), and scenario runs against the harness behave as specified.\n\nThe chart lists the issues once, then for each one in order: asks the person, and if approved sends `close` and waits for `closed` or `refused`. It records the result, "
+}

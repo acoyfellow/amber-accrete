@@ -1,0 +1,7 @@
+{
+  "name": "closer",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test" },
+  "dependencies": { "@tinyactors/node": "0.4.0" }
+}
