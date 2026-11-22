@@ -16,7 +16,8 @@
     "replay": "tsx evals/replay.ts",
     "drift": "tsx evals/drift.ts",
     "judged": "tsx evals/judged.ts",
-    "test:domain": "cd domain && npm install --ignore-scripts --legacy-peer-deps && vitest run"
+    "test:domain": "cd domain && npm install --ignore-scripts --legacy-peer-deps && vitest run",
+    "refusal-prompt": "tsx evals/refusal-prompt.ts"
   },
   "dependencies": {
     "@acoyfellow/amber": "file:../amber"
