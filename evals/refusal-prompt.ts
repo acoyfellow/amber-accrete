@@ -94,24 +94,40 @@ const grade = (source: string): { readonly passed: boolean; readonly output: str
 
 const handlesRefusal = (source: string): boolean => source.includes("refused");
 
+const BARE_OBJECT_LINE = new RegExp("^\\{[^;]*\\};?$");
+
+const withReportInParens = (source: string): string => {
+	const lines = source.trimEnd().split("\n");
+	const last = (lines.at(-1) ?? "").trim();
+	if (!BARE_OBJECT_LINE.test(last)) return source;
+	return [...lines.slice(0, -1), `(${last.replace(new RegExp(";$"), "")})`].join("\n");
+};
+
 const gradeReference = grade(readFileSync(join(SCRIPT_ARM, "reference/scripts/closer.js"), "utf8"));
 
 const gradeIgnoresRefusal = grade(readFileSync(join(SCRIPT_ARM, "mutants/ignores-refusal.js"), "utf8"));
 
+const parensCheck = withReportInParens("const a = 1;\n{ a }") === "const a = 1;\n({ a })" && withReportInParens("({ a })") === "({ a })";
+
+if (!parensCheck) throw new Error("withReportInParens is wrong");
+
 if (!gradeReference.passed || gradeIgnoresRefusal.passed) throw new Error("grader check failed: reference must pass and the ignores-refusal mutant must fail");
 
-const results: Record<ArmName, Array<{ readonly sha256: string; readonly source: string; readonly ms: number; readonly passed: boolean; readonly mentionsRefused: boolean; readonly output: string }>> = { silent: [], refusal: [] };
+const results: Record<ArmName, Array<{ readonly sha256: string; readonly source: string; readonly ms: number; readonly passed: boolean; readonly passedWithParens: boolean; readonly bareReport: boolean; readonly mentionsRefused: boolean; readonly output: string }>> = { silent: [], refusal: [] };
 
 for (let index = 0; index < PLANS_PER_ARM; index++) {
 	for (const arm of Object.keys(ARMS) as Array<ArmName>) {
 		const plan = await writePlan(ARMS[arm]);
 		const graded = grade(plan.source);
-		results[arm].push({ sha256: createHash("sha256").update(plan.source).digest("hex"), source: plan.source, ms: plan.ms, passed: graded.passed, mentionsRefused: handlesRefusal(plan.source), output: graded.output });
-		console.log(`${arm} ${index}: passed=${graded.passed} mentionsRefused=${handlesRefusal(plan.source)} ${plan.ms}ms`);
+		const parens = withReportInParens(plan.source);
+		const bareReport = parens !== plan.source;
+		const gradedWithParens = bareReport ? grade(parens) : graded;
+		results[arm].push({ sha256: createHash("sha256").update(plan.source).digest("hex"), source: plan.source, ms: plan.ms, passed: graded.passed, passedWithParens: gradedWithParens.passed, bareReport, mentionsRefused: handlesRefusal(plan.source), output: gradedWithParens.output });
+		console.log(`${arm} ${index}: passed=${graded.passed} withParens=${gradedWithParens.passed} bareReport=${bareReport} ${plan.ms}ms`);
 	}
 }
 
-const summary = (arm: ArmName) => ({ plans: results[arm].length, passed: results[arm].filter((plan) => plan.passed).length, mentionsRefused: results[arm].filter((plan) => plan.mentionsRefused).length });
+const summary = (arm: ArmName) => ({ plans: results[arm].length, passed: results[arm].filter((plan) => plan.passed).length, passedWithParens: results[arm].filter((plan) => plan.passedWithParens).length, bareReport: results[arm].filter((plan) => plan.bareReport).length, mentionsRefused: results[arm].filter((plan) => plan.mentionsRefused).length });
 
 const sealed = {
 	kind: "amber-accrete-refusal-prompt",
@@ -128,4 +144,4 @@ const sealed = {
 };
 const body = JSON.stringify(sealed, null, 2);
 writeFileSync(OUT, `${JSON.stringify({ ...sealed, sha256: createHash("sha256").update(body).digest("hex") }, null, 2)}\n`);
-console.log(`REFUSAL PROMPT DONE: silent ${sealed.silent.passed}/${sealed.silent.plans} passed · refusal ${sealed.refusal.passed}/${sealed.refusal.plans} passed`);
+console.log(`REFUSAL PROMPT DONE ${MODEL}: silent ${sealed.silent.passed}/${sealed.silent.plans} as written, ${sealed.silent.passedWithParens} with parens · refusal ${sealed.refusal.passed}/${sealed.refusal.plans} as written, ${sealed.refusal.passedWithParens} with parens`);
