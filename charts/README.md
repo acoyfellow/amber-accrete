@@ -32,6 +32,28 @@ Scripts were about half the cost and wrote about half the lines (32 to 43, again
 Limits: one task, one model, 5 agents per arm. The earlier 0 of 10 used a different model (Kimi K2.6) and a prompt that
 did not mention refusals, so the format and prompt arms are clean but the model changed between the two experiments.
 
+## Does the refusal line fix it for other models?
+
+Receipts: `bench/refusal-prompt-*.json`, from `evals/refusal-prompt.ts`. Kimi K2.6, the model of the first eval, was retired
+on Workers AI on 2026-11-20, so two open models stand in. Each wrote 20 scripts in one shot at temperature 1: 10 from a
+prompt whose `close_issue` line says nothing about refusals, 10 from the same prompt with the refusal added. Every script
+was graded by `script/hidden/closer.test.mjs`, the same hidden tests as above.
+
+Every script from both models ended with a bare `{ closed, refused, skipped }`, which JavaScript reads as a block, not an
+object, so the run reports nothing. The eval grades each script twice: as written, and with that last line wrapped in
+parentheses. The wrapped grade is what tells the arms apart.
+
+| Model | No refusal in the prompt | Refusal in the prompt |
+|---|---|---|
+| Llama 3.3 70B | 0 / 10 | 10 / 10 |
+| gpt-oss-120b | 0 / 10 | 10 / 10 |
+
+Without the refusal line, 16 of the 20 scripts counted a refused close as closed. The other 4 (Llama) treated the answer
+`{ approve: false }` as approval. With the line, all 20 handled the refusal. As written, with no parentheses, 1 of 40
+scripts passed.
+
+So the result above holds for three model families: tell the model how a tool says no, and it handles the no.
+
 ## Run
 
 ```sh

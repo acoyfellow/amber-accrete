@@ -1,0 +1,237 @@
+{
+  "kind": "amber-accrete-refusal-prompt",
+  "at": "2026-11-22T13:37:17.617Z",
+  "commit": "91439a0e6df16803d571abe32b087c3bf73df9dd",
+  "model": "@cf/openai/gpt-oss-120b",
+  "temperature": 1,
+  "grader": "charts/script/grade.sh with charts/script/hidden/closer.test.mjs",
+  "graderCheck": {
+    "referencePassed": true,
+    "ignoresRefusalPassed": false
+  },
+  "prompts": {
+    "silent": "You write a JavaScript program for a sandbox. There is no import, no require, no await and no fetch.\nThe only way to act is a synchronous function: tool(name, args), which returns a value. args is an object.\nCall tool() only from for...of loops, never inside forEach or map.\nAvailable tools:\n- tool(\"list_issues\", {}) returns an array of open issues, each { id, title }.\n- tool(\"ask_human\", { id, question }) asks a person a yes or no question about one issue and returns { approve }: true or false. The person may take hours to answer.\n- tool(\"close_issue\", { id }) closes one issue.\nTask: ask the person about each open issue, one question per issue, in the order listed. The question must contain the issue id. Close each issue the person approves.\nThe last line must be an object expression { closed, refused, skipped }: closed is the ids really closed, refused is { id, reason } for each refused close, skipped is the ids the person did not approve, each in order.\nWrite the program you think is best. Reply with only the code. No fences. No prose.",
+    "refusal": "You write a JavaScript program for a sandbox. There is no import, no require, no await and no fetch.\nThe only way to act is a synchronous function: tool(name, args), which returns a value. args is an object.\nCall tool() only from for...of loops, never inside forEach or map.\nAvailable tools:\n- tool(\"list_issues\", {}) returns an array of open issues, each { id, title }.\n- tool(\"ask_human\", { id, question }) asks a person a yes or no question about one issue and returns { approve }: true or false. The person may take hours to answer.\n- tool(\"close_issue\", { id }) closes one issue. It returns { closed: true, id }, or { refused: true, id, reason } when the close is refused, for example because someone else already closed the issue. A refused issue is not closed.\nTask: ask the person about each open issue, one question per issue, in the order listed. The question must contain the issue id. Close each issue the person approves.\nThe last line must be an object expression { closed, refused, skipped }: closed is the ids really closed, refused is { id, reason } for each refused close, skipped is the ids the person did not approve, each in order.\nWrite the program you think is best. Reply with only the code. No fences. No prose."
+  },
+  "silent": {
+    "plans": 10,
+    "passed": 0,
+    "passedWithParens": 0,
+    "bareReport": 8,
+    "mentionsRefused": 10
+  },
+  "refusal": {
+    "plans": 10,
+    "passed": 1,
+    "passedWithParens": 10,
+    "bareReport": 9,
+    "mentionsRefused": 10
+  },
+  "results": {
+    "silent": [
+      {
+        "sha256": "48f90a66a365e5f889b1564d4915d70e662b3592f60942580578b6d145de4aa0",
+        "source": "let issues = tool(\"list_issues\", {});\nlet closed = [];\nlet refused = [];\nlet skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (answer.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    refused.push({ id: issue.id, reason: \"User declined\" });\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 11888,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-wA1SGD/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "7a4415295149882d000c6e3a618059bc05ac6f4fb0452158b06bd9b00e6fb280",
+        "source": "let closed = [];\nlet refused = [];\nlet skipped = [];\n\nlet issues = tool(\"list_issues\", {});\n\nfor (let issue of issues) {\n  let response = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (response.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    refused.push({ id: issue.id, reason: \"rejected\" });\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped }",
+        "ms": 9760,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-5qk8S1/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "e71f413e74b4ae6fded1fd80b86a0b2cc5b99f9631472e68158aee1b90842cba",
+        "source": "let issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const response = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (response.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    refused.push({ id: issue.id, reason: \"rejected by human\" });\n    skipped.push(issue.id);\n  }\n}\n\n({ closed, refused, skipped });",
+        "ms": 9610,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": false,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-gHCF6q/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "570a7f0ce487606ec55ad79a4d4bd20ffeb1c5cd331c209f562da712cb2b6b5a",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (answer.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    refused.push({ id: issue.id, reason: \"User did not approve\" });\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 4084,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-umk4ME/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "2a66d0a2535b8ec10061eef65979f7207b8d21f41e3f1261d715c0a0acc6a0d9",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`,\n  });\n\n  if (answer.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    const reason = \"Not approved by human\";\n    refused.push({ id: issue.id, reason });\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 13746,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-tnJm8a/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "628c7f6a6871ac790f0440107f2f22c122d3f6cd75da2cc17251df82391fba9e",
+        "source": "let issues = tool(\"list_issues\", {});\nlet closed = [];\nlet refused = [];\nlet skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (answer.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    refused.push({ id: issue.id, reason: \"not approved\" });\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 5569,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-AszBV2/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "2ec51d45620d515f0a076f208431a64ec3ebadceec7d35e5a7769a0b701cc6df",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (answer.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    refused.push({ id: issue.id, reason: \"not approved\" });\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped }",
+        "ms": 6827,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-N9iy1M/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "d465be0fde24dd43fbf1142464dc44f056826c0c0686662d194520b5338af6b9",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (answer.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    refused.push({ id: issue.id, reason: \"not approved\" });\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 9534,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-5o8wKP/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "af381fac5cefb1d9ce659d3f595fc586b18a8c0b437344c441cde455b81204b3",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const resp = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (resp.approve) {\n    try {\n      tool(\"close_issue\", { id: issue.id });\n      closed.push(issue.id);\n    } catch (e) {\n      refused.push({ id: issue.id, reason: e.message || \"Close failed\" });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{\n  closed,\n  refused,\n  skipped\n}",
+        "ms": 14992,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": false,
+        "mentionsRefused": true,
+        "output": "hx50s18xh_3fw0gprw0000gn/T/refusal-grade-5vTTta/test/accept/closer.test.mjs:29:10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-5vTTta/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: [],\n    expected: { closed: [], refused: [], skipped: [] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      },
+      {
+        "sha256": "d465be0fde24dd43fbf1142464dc44f056826c0c0686662d194520b5338af6b9",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (answer.approve) {\n    tool(\"close_issue\", { id: issue.id });\n    closed.push(issue.id);\n  } else {\n    refused.push({ id: issue.id, reason: \"not approved\" });\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 13652,
+        "passed": false,
+        "passedWithParens": false,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ":10)\n      at async TestContext.<anonymous> (file:///private/var/folders/hb/wd2swkhx50s18xh_3fw0gprw0000gn/T/refusal-grade-xTzIei/test/accept/closer.test.mjs:52:5)\n      at async Test.run (node:internal/test_runner/test:1054:7)\n      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {\n    generatedMessage: false,\n    code: 'ERR_ASSERTION',\n    actual: { closed: [], refused: [ [Object], [Object] ], skipped: [ 101, 102 ] },\n    expected: { closed: [], refused: [], skipped: [ 101, 102 ] },\n    operator: 'deepStrictEqual',\n    diff: 'simple'\n  }\nfail: hidden=1 existing=0\n"
+      }
+    ],
+    "refusal": [
+      {
+        "sha256": "8097a7dc2175dcc4dffefd024252ab25b92ec9a29777293fd0d51c3f2b1ade1e",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const { approve } = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`,\n  });\n  if (approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(issue.id);\n    } else if (result.refused) {\n      refused.push({ id: result.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped }",
+        "ms": 5939,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "41f5dcebc58be14dece0b75b3acfd02e0b3352d1da1d4c460a3be13a6efc6a4f",
+        "source": "const issues = tool(\"list_issues\", {});\n\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n\n  if (answer.approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(issue.id);\n    } else if (result.refused) {\n      refused.push({ id: issue.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped }",
+        "ms": 7721,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "e6329b955c9329ae574c7e99ede2c9df90299585eac70baaebd44d6b83cf3215",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const response = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (response.approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(result.id);\n    } else if (result.refused) {\n      refused.push({ id: result.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 6335,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "f57082b2f497c6a89bd38f87e9a219c3cc03df4516a0e4f8cd8878246e422454",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`,\n  });\n  if (answer.approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(issue.id);\n    } else if (result.refused) {\n      refused.push({ id: issue.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 11615,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "64afe64057b0549dd7f435895c964c51222a5fe04fdc1976caa1ab8aeb07f1b7",
+        "source": "let issues = tool(\"list_issues\", {});\nlet closed = [];\nlet refused = [];\nlet skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`,\n  });\n  if (answer.approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(issue.id);\n    } else if (result.refused) {\n      refused.push({ id: issue.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped };",
+        "ms": 6855,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "9483a26f749927a4521d2596931a802b28749cd868f2091434d68d71aebe03ae",
+        "source": "let issues = tool(\"list_issues\", {});\nlet closed = [];\nlet refused = [];\nlet skipped = [];\n\nfor (const issue of issues) {\n  let response = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}: ${issue.title}?`\n  });\n  if (response.approve) {\n    let result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(issue.id);\n    } else if (result.refused) {\n      refused.push({ id: issue.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped }",
+        "ms": 11261,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "48c653800e28c0a8915145c7c803ac384210259d953b9f8519fc55dd2bf06796",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`,\n  });\n  if (answer.approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(result.id);\n    } else if (result.refused) {\n      refused.push({ id: result.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped }",
+        "ms": 6275,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "22349bdb48c3165e29d53f81ea3370b02c547ed5a4e76275f4f1a3f3674b3eaf",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const response = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (response.approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(result.id);\n    } else if (result.refused) {\n      refused.push({ id: result.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n({ closed, refused, skipped });",
+        "ms": 6268,
+        "passed": true,
+        "passedWithParens": true,
+        "bareReport": false,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "8c349bd5ed837d7545a775c7e421120af5f985e6d14746c84cd7721a0b15d8af",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`\n  });\n  if (answer.approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(result.id);\n    } else if (result.refused) {\n      refused.push({ id: result.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n\n{ closed, refused, skipped }",
+        "ms": 6443,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      },
+      {
+        "sha256": "07aa3d62c3261be45c1ce17343d36ffb936023b1732bd638fc677f137ccb5879",
+        "source": "const issues = tool(\"list_issues\", {});\nconst closed = [];\nconst refused = [];\nconst skipped = [];\n\nfor (const issue of issues) {\n  const answer = tool(\"ask_human\", {\n    id: issue.id,\n    question: `Do you approve closing issue ${issue.id}?`,\n  });\n  if (answer.approve) {\n    const result = tool(\"close_issue\", { id: issue.id });\n    if (result.closed) {\n      closed.push(result.id);\n    } else if (result.refused) {\n      refused.push({ id: result.id, reason: result.reason });\n    }\n  } else {\n    skipped.push(issue.id);\n  }\n}\n{ closed, refused, skipped };",
+        "ms": 6405,
+        "passed": false,
+        "passedWithParens": true,
+        "bareReport": true,
+        "mentionsRefused": true,
+        "output": ".....\npass: hidden tests and existing tests\n"
+      }
+    ]
+  },
+  "sha256": "d0fa67d49f9acd2211e866cc347a4d0817914b39527305e0138319966aa3a920"
+}
