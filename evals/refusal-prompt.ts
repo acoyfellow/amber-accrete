@@ -5,7 +5,7 @@ import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const MODEL = "@cf/moonshotai/kimi-k2.6";
+const MODEL = process.env.REFUSAL_MODEL ?? "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 const PLANS_PER_ARM = 10;
 
@@ -13,7 +13,7 @@ const HERE = fileURLToPath(new URL(".", import.meta.url));
 
 const SCRIPT_ARM = join(HERE, "../charts/script");
 
-const OUT = join(HERE, "../bench/refusal-prompt.json");
+const OUT = join(HERE, `../bench/refusal-prompt-${MODEL.split("/").at(-1)}.json`);
 
 const COMMIT = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
 
@@ -66,7 +66,7 @@ const writePlan = async (prompt: string): Promise<{ readonly source: string; rea
 	});
 	const body = (await response.json()) as { result?: { choices?: ReadonlyArray<{ message?: { content?: string } }> } };
 	if (!response.ok) throw new Error(`model ${response.status}: ${JSON.stringify(body).slice(0, 300)}`);
-	const text = body.result?.choices?.[0]?.message?.content ?? "";
+	const text = body.result?.choices?.[0]?.message?.content ?? (body.result as { response?: string } | undefined)?.response ?? "";
 	return { source: text.trim().replace(FENCE, "").trim(), ms: Date.now() - started };
 };
 
