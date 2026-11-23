@@ -333,7 +333,7 @@ const baseOptions = { storage: memoryStorage(), tools: toolsFor(meter(), "kept-t
 await refusedAs("forkKept refuses a different engine", () => forkKept(client, key, { ...baseOptions, programId: "bad-engine", engineSha: "0".repeat(64) }), "EngineChanged");
 await refusedAs("forkKept refuses an over-age snapshot", () => forkKept(client, key, { ...baseOptions, programId: "old", now: () => Date.now() + 2 * MAX_AGE_MS }), "SnapshotTooOld");
 
-const exported = base.exportSnapshot();
+const exported = await base.exportSnapshot();
 const tamperedReply = await fetch(`${client.url}/snapshots`, {
 	method: "POST",
 	headers: { authorization: `Bearer ${client.token}`, "content-type": "application/json" },

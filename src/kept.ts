@@ -52,7 +52,7 @@ export const toolHash = async (client: AccreteClient, name: string): Promise<str
 };
 
 export const keepFrozen = async (client: AccreteClient, script: DurableScript, engineSha: string, toolNames: ReadonlyArray<string>): Promise<string> => {
-	const exported = script.exportSnapshot();
+	const exported = await script.exportSnapshot();
 	const toolHashes = Object.fromEntries(await Promise.all(toolNames.map(async (name) => [name, await toolHash(client, name)] as const)));
 	const stored = await call(client, "POST", "/snapshots", { engineSha, toolHashes, meta: exported.meta, snapshot: Buffer.from(exported.snapshot).toString("base64") });
 
@@ -105,7 +105,7 @@ export const forkKept = async (client: AccreteClient, key: string, options: Fork
 
 	if (token === null) throw new Error(`snapshot ${key} is not waiting`);
 
-	const script = DurableScript.fork({ meta: kept.meta, snapshot: kept.snapshot }, options);
+	const script = await DurableScript.fork({ meta: kept.meta, snapshot: kept.snapshot }, options);
 
 	return { script, kept, token };
 };
