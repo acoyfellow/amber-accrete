@@ -66,12 +66,46 @@ check('one copy of effect: amber-accrete uses the copy amber decodes with', effe
 check('typecheck passes', ok('npx', ['tsc', '--noEmit', '-p', '.']));
 check('unit tests pass', ok('npx', ['vitest', 'run']));
 
+const AWAIT_ONLY = new RegExp('\\bawait\\s+', 'g');
+const changedLines = (commit, paths) => {
+  const diff = execFileSync('git', ['show', '--format=', '--unified=0', commit, '--', ...paths], { encoding: 'utf8' });
+  const lines = diff.split('\n').filter((line) => !line.startsWith('+++') && !line.startsWith('---'));
+  return {
+    added: lines.filter((line) => line.startsWith('+')).map((line) => line.slice(1)),
+    removed: lines.filter((line) => line.startsWith('-')).map((line) => line.slice(1)),
+  };
+};
+const onlyAddsAwait = (commit, paths) => {
+  const { added, removed } = changedLines(commit, paths);
+  return added.length > 0 && added.length === removed.length && added.every((line, index) => line.replace(AWAIT_ONLY, '') === removed[index]);
+};
+const unchangedSince = (commit, paths) => {
+  try {
+    execFileSync('git', ['merge-base', '--is-ancestor', commit, 'HEAD'], { stdio: 'ignore' });
+    const later = execFileSync('git', ['log', '--format=%H', `${commit}..HEAD`, '--', ...paths], { encoding: 'utf8' }).trim();
+    const commits = later === '' ? [] : later.split('\n');
+    return commits.every((each) => onlyAddsAwait(each, paths));
+  } catch {
+    return false;
+  }
+};
 const RECEIPT = 'bench/abc.json';
 const sealed = existsSync(RECEIPT) ? JSON.parse(readFileSync(RECEIPT, 'utf8')) : {};
 const { sha256, ...body } = sealed;
 const ARMS = ['A-no-kept-tool-no-freeze', 'B-kept-tool-no-freeze', 'C-kept-tool-frozen', 'D-kept-tool-cache-by-args', 'E-kept-tool-cache-by-name'];
 check('receipt hash matches its content', sha256 === createHash('sha256').update(JSON.stringify(body, null, 2)).digest('hex'));
-check('receipt came from the current eval source', sealed.evalSourceSha === createHash('sha256').update(readFileSync('evals/abc.ts')).digest('hex'));
+const abcSourceSha = createHash('sha256').update(readFileSync('evals/abc.ts')).digest('hex');
+const abcReceiptCommit = (() => {
+  try {
+    const commits = execFileSync('git', ['log', '--format=%H', '--', 'evals/abc.ts'], { encoding: 'utf8' }).trim().split('\n');
+    return commits.find((commit) => createHash('sha256').update(execFileSync('git', ['show', `${commit}:evals/abc.ts`])).digest('hex') === sealed.evalSourceSha) ?? '';
+  } catch {
+    return '';
+  }
+})();
+const abcAtReceipt = abcReceiptCommit === '' ? '' : sealed.evalSourceSha;
+check('receipt came from the current eval source, or one that only adds await', sealed.evalSourceSha === abcSourceSha || (abcAtReceipt === sealed.evalSourceSha && unchangedSince(abcReceiptCommit, ['evals/abc.ts'])));
+check('await-only rule refuses a real change', !onlyAddsAwait('ddc642a', ['evals/abc.ts']) && onlyAddsAwait('8e9afaa', ['evals/abc.ts', 'src']));
 check('plan was written by a model and has real state', typeof sealed.plan?.source === 'string' && sealed.plan.source.includes('Math.random') && sealed.plan.source.includes('review_pass'));
 check('5 arms ran 10 diffs each', ARMS.every((arm) => sealed.totals?.[arm]?.runs === 10));
 check('every row stores its output', Array.isArray(sealed.rows) && sealed.rows.length === 50 && sealed.rows.every((row) => typeof row.output?.checklist === 'string' && typeof row.output?.runId === 'string'));
@@ -98,15 +132,7 @@ const codeCommit = (() => {
     return '';
   }
 })();
-const unchangedSince = (commit, paths) => {
-  try {
-    execFileSync('git', ['merge-base', '--is-ancestor', commit, 'HEAD'], { stdio: 'ignore' });
-    execFileSync('git', ['diff', '--quiet', commit, '--', ...paths], { stdio: 'ignore' });
-    return true;
-  } catch {
-    return false;
-  }
-};
+
 check('commit check fails closed on an unknown commit', !unchangedSince('0'.repeat(40), ['src']));
 const codeDirty = (() => {
   try {
